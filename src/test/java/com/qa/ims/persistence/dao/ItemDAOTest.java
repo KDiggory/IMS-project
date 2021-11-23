@@ -56,7 +56,7 @@ public class ItemDAOTest {
 		assertEquals(new Item(1L, "beer", "very large", 5L), DAO.readLatest());
 	}
 	
-	@Test (expected=Exception.class)
+	@Test (expected=Exception.class) // How to get this to work?
 	public void exceptionTesting() {
 		DAO.read(100L);
 		
