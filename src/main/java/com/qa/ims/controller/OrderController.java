@@ -9,6 +9,7 @@ import com.qa.ims.persistence.dao.CustomerDAO;
 import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.dao.OrderItemDAO;
+import com.qa.ims.persistence.domain.JoinTable;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.Utils;
 
@@ -33,6 +34,14 @@ public class OrderController implements CrudController<Order>{
 	public List<Order> readAll() {
 		List<Order> orders = orderDAO.readAll();
 		for (Order order : orders) {
+			LOGGER.info(order);
+		}
+		return orders;
+	}
+	
+	public List<JoinTable> readAllOrders() {
+		List<JoinTable> orders = orderDAO.readAllOrders();
+		for (JoinTable order : orders) {
 			LOGGER.info(order);
 		}
 		return orders;

@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.persistence.domain.JoinTable;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.DBUtils;
 
@@ -23,19 +24,47 @@ public class OrderDAO implements Dao<Order> {
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("id");
 		Long customerId = resultSet.getLong("customerId");
-		System.out.println();
+		Long orderId = resultSet.getLong("orderId");
+		Long itemId = resultSet.getLong("itemId");
+		String itemName = resultSet.getString("itemName");
+		Long totalCost = resultSet.getLong("totalCost");
+		Long numItems = resultSet.getLong("numItems");
+		Long itemCost = resultSet.getLong("itemCost");
+		
 		return new Order(id, customerId);
 		
 	}
+	
+	public JoinTable modelFromResultSetJoin(ResultSet resultSet) throws SQLException {
+//		Long id = resultSet.getLong("id");
+		Long customerId = resultSet.getLong("customerId");
+		Long orderId = resultSet.getLong("orderId");
+		Long itemId = resultSet.getLong("itemId");
+		String itemName = resultSet.getString("itemName");
+		Long totalCost = resultSet.getLong("totalCost");
+		Long numItems = resultSet.getLong("numItems");
+		Long itemCost = resultSet.getLong("itemCost");
+		String customerSurname = resultSet.getString("customerSurname");
+		System.out.println(new JoinTable(customerId, customerSurname, orderId, itemId, itemName,itemCost, numItems,totalCost));
+		// this just prints out the memory location of each not the names
+	
+		
+		return new JoinTable(customerId, customerSurname, orderId, itemId, itemName,itemCost, numItems,totalCost);
+		
+	}
 
-	@Override
-	public List<Order> readAll() {
+	
+	public List<JoinTable> readAllOrders() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
-			List<Order> orders = new ArrayList<>();
+				ResultSet resultSet = statement.executeQuery("SELECT customerId AS customerId, surname AS customerSurname, orderId, itemId, itemName, order_items.cost AS totalCost, "
+						+ "numItems, items.cost AS itemCost FROM orders "
+						+ "INNER JOIN order_items ON orders.id=order_items.orderId "
+						+ "INNER JOIN items ON order_items.id=items.id "
+						+ "INNER JOIN customers ON orders.customerId=customers.id;" );) {
+			List<JoinTable> orders = new ArrayList<>();
 			while (resultSet.next()) {
-				orders.add(modelFromResultSet(resultSet));
+				orders.add(modelFromResultSetJoin(resultSet));
 			}
 			return orders;
 		} catch (SQLException e) {
@@ -44,6 +73,8 @@ public class OrderDAO implements Dao<Order> {
 		}
 		return new ArrayList<>();
 	}
+	
+		
 
 	@Override
 	public Order read(Long id) {
@@ -120,6 +151,12 @@ public class OrderDAO implements Dao<Order> {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
+		return null;
+	}
+
+	@Override
+	public List<Order> readAll() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	}

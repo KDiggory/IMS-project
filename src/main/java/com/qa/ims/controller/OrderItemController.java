@@ -41,6 +41,8 @@ public class OrderItemController implements CrudController<OrderItem> {
 
 	@Override
 	public OrderItem create() {
+		
+		// always accessed through order create
 		OrderDAO orderDAO = new OrderDAO();
 		CustomerDAO customerDAO = new CustomerDAO();
 		ItemDAO itemDAO = new ItemDAO();
@@ -59,15 +61,20 @@ public class OrderItemController implements CrudController<OrderItem> {
 		Item item = itemDAO.read(itemId);
 		String itemName = item.getName();
 		Long cost = item.getCost();
-		cost = cost * numItems;
-		OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, itemId, itemName, numItems, cost));
+//		System.out.println(cost);
+		Long costTotal = cost * numItems;
+//		System.out.println(costTotal);
+		OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, itemId, itemName, numItems, costTotal)); // this is the problem
+		// readLatest 
+		orderItemDAO.readLatest();
+		
 		LOGGER.info("Order Item created");
 		return orderItem;
 	}
 
 	@Override
 	public OrderItem update() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

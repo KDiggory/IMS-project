@@ -31,6 +31,7 @@ public class OrderItem {
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.numItems = numItems;
+		this.cost = cost;
 	}
 
 	public Long getId() {

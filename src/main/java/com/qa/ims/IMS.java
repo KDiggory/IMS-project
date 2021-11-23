@@ -99,6 +99,9 @@ public class IMS {
 			crudController.create();
 			break;
 		case READ:
+			if (crudController == this.orders ) {
+				((OrderController) crudController).readAllOrders(); // need a different read for the orders
+			} else
 			crudController.readAll();
 			break;
 		case UPDATE:
@@ -107,6 +110,8 @@ public class IMS {
 		case DELETE:
 			crudController.delete();
 			break;
+		case READBYID:
+			
 		case RETURN:
 			break;
 		default:
