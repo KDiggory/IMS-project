@@ -90,6 +90,7 @@ public class CustomerDAO implements Dao<Customer> {
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
 				return modelFromResultSet(resultSet);
+				
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -97,6 +98,12 @@ public class CustomerDAO implements Dao<Customer> {
 		}
 		return null;
 	}
+	
+//	List<Customer> customers = new ArrayList<>();
+//	while (resultSet.next()) {
+//		customers.add(modelFromResultSet(resultSet));
+//	}
+//	return customers;
 
 	/**
 	 * Updates a customer in the database

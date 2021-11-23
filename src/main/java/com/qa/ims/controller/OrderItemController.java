@@ -84,4 +84,10 @@ public class OrderItemController implements CrudController<OrderItem> {
 		return 0;
 	}
 
+	
+	public OrderItem readById(Long id) {
+		OrderItem orderItem = orderItemDAO.read(id);
+		return orderItem;
+	}
+
 }
