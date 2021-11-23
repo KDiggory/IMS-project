@@ -35,6 +35,70 @@ public class JoinTable {
 				+ "\ntotalCost:\t\t" + totalCost ;
 	}
 
+	public Long getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getCustomerSurname() {
+		return customerSurname;
+	}
+
+	public void setCustomerSurname(String customerSurname) {
+		this.customerSurname = customerSurname;
+	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public Long getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public Long getItemCost() {
+		return itemCost;
+	}
+
+	public void setItemCost(Long itemCost) {
+		this.itemCost = itemCost;
+	}
+
+	public Long getNumItems() {
+		return numItems;
+	}
+
+	public void setNumItems(Long numItems) {
+		this.numItems = numItems;
+	}
+
+	public Long getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(Long totalCost) {
+		this.totalCost = totalCost;
+	}
+
 	
 	
 	

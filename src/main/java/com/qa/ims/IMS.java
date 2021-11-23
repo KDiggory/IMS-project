@@ -78,7 +78,7 @@ public class IMS {
 			default:
 				break;
 			}
-
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			LOGGER.info(() -> "\nWhat would you like to do with " + domain.name().toLowerCase() + ":");
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
@@ -108,11 +108,20 @@ public class IMS {
 					crudController.readAll();
 			} 
 				}else if (answer.contains("id")) {
-				if (crudController == this.orders ) {
-					((OrderController) crudController).readById();
-				} else if ((crudController != this.orders ))  {
-				crudController.readById();	
-				}
+					{if (crudController == this.orders ) {
+						LOGGER.info("Would you like to read by order id or customer id?");
+						String answer2 = utils.getString();
+						if (answer2.contains("order")) {
+							((OrderController) crudController).readById();	
+					} else if (answer2.contains("customer")) {
+						((OrderController) crudController).readByCustomer();	
+					}
+						
+					} else {
+						crudController.readById();
+					}
+					
+				} 
 			} 
 			break;
 		case UPDATE:

@@ -43,10 +43,10 @@ public class OrderController implements CrudController<Order>{
 	
 	public List<JoinTable> readAllOrders() {
 		List<JoinTable> orders = orderDAO.readAllOrders();
-		System.out.println(orders.toString());
+		System.out.println(orders.size());
 		for (JoinTable order : orders) {
-			//LOGGER.info(order); // with this in as well everything is printed twice
-			
+			System.out.println("in for loop");
+			LOGGER.info(order); // with this in as well everything is printed twice
 		}
 		return orders;
 	}
@@ -95,6 +95,28 @@ public class OrderController implements CrudController<Order>{
 	JoinTable order = orderDAO.readId(id);
 	LOGGER.info(order);
 		return null;
+	}
+	
+	public List<JoinTable> readByCustomer(){
+		LOGGER.info("Please enter the customer id of the orders you would like to find");
+		Long id = utils.getLong();
+		List<JoinTable> orders = orderDAO.readByCustomer(id);
+		// System.out.println("orders for customer: " + id); // could make it add the name here? - how to get this from OrderDAO? 
+		for (JoinTable order : orders) {
+			LOGGER.info(order); 
+		}
+		getTotal(id);
+		return orders;	
+	}
+	
+	public Long getTotal(Long id) {
+		Long totalSum = orderDAO.totalCost(id);
+		System.out.println();
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("\nThe total sum for customer number " + id + ": £" + totalSum);
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		return totalSum;
+		
 	}
 
 }

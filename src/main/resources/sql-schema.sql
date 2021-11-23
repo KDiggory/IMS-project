@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`customers` (
     `first_name` VARCHAR(40) DEFAULT NULL,
     `surname` VARCHAR(40) DEFAULT NULL,
     PRIMARY KEY (`id`)
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `ims`.`items` (
@@ -14,7 +15,10 @@ CREATE TABLE IF NOT EXISTS `ims`.`items` (
     `name` VARCHAR(40) NOT NULL,
     `size` VARCHAR(40)  NOT NULL,
     `cost` INT  NOT NULL,
-    PRIMARY KEY (`id`));
+    PRIMARY KEY (`id`)
+    ON UPDATE CASCADE
+    );
+    
 
 CREATE TABLE IF NOT EXISTS `ims`.`orders` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -22,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`orders` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (customerId) REFERENCES customers(id) 
   ON DELETE CASCADE
+  ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `ims`.`order_items` (
@@ -34,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`order_items` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (orderId) REFERENCES orders(id)
   ON DELETE CASCADE
+  ON UPDATE CASCADE
 );
 
 
