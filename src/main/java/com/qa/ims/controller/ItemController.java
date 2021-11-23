@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.persistence.dao.ItemDAO;
+import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.Utils;
 
@@ -21,7 +22,6 @@ public class ItemController implements CrudController<Item> {
 		this.itemDAO = itemDAO;
 		this.utils = utils;
 	}
-
 	
 	//reads all items to the logger
 	@Override
@@ -69,5 +69,17 @@ public class ItemController implements CrudController<Item> {
 		Long id = utils.getLong();
 		return itemDAO.delete(id);
 	}
+
+
+	@Override
+	public Item readById() {
+		LOGGER.info("Please enter the id of the item you would like to find");
+		Long id = utils.getLong();
+		Item item = itemDAO.read(id);
+		LOGGER.info(item);
+		return item;
+	}
+
+
 
 }

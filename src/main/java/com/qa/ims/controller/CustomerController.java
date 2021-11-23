@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.persistence.dao.CustomerDAO;
 import com.qa.ims.persistence.domain.Customer;
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.Utils;
 
 /**
@@ -78,6 +79,15 @@ public class CustomerController implements CrudController<Customer> {
 		LOGGER.info("Please enter the id of the customer you would like to delete");
 		Long id = utils.getLong();
 		return customerDAO.delete(id);
+	}
+
+	@Override
+	public Customer readById() {
+		LOGGER.info("Please enter the id of the customer you would like to find");
+		Long id = utils.getLong();		
+		Customer customer = customerDAO.read(id);
+		LOGGER.info(customer);
+		return customer;
 	}
 
 }

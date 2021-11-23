@@ -99,10 +99,16 @@ public class IMS {
 			crudController.create();
 			break;
 		case READ:
+			LOGGER.info("Would you like to read all or by id?");
+			String answer = utils.getString();
+			if (answer.contains("all")) {
 			if (crudController == this.orders ) {
 				((OrderController) crudController).readAllOrders(); // need a different read for the orders
 			} else
 			crudController.readAll();
+			} else if (answer.contains("id")) {
+				crudController.readById();	
+			} 
 			break;
 		case UPDATE:
 			crudController.update();
@@ -110,8 +116,6 @@ public class IMS {
 		case DELETE:
 			crudController.delete();
 			break;
-		case READBYID:
-			
 		case RETURN:
 			break;
 		default:

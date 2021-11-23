@@ -44,11 +44,7 @@ public class OrderDAO implements Dao<Order> {
 		Long totalCost = resultSet.getLong("totalCost");
 		Long numItems = resultSet.getLong("numItems");
 		Long itemCost = resultSet.getLong("itemCost");
-		String customerSurname = resultSet.getString("customerSurname");
-		System.out.println(new JoinTable(customerId, customerSurname, orderId, itemId, itemName,itemCost, numItems,totalCost));
-		// this just prints out the memory location of each not the names
-	
-		
+		String customerSurname = resultSet.getString("customerSurname");		
 		return new JoinTable(customerId, customerSurname, orderId, itemId, itemName,itemCost, numItems,totalCost);
 		
 	}
@@ -75,15 +71,26 @@ public class OrderDAO implements Dao<Order> {
 	}
 	
 		
-
+// Can't use this one because I didnt make a whole new set of classes for join table
 	@Override
 	public Order read(Long id) {
+		return null;
+	}
+	
+	
+	public JoinTable readId(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
+				PreparedStatement statement = connection.prepareStatement(
+				"SELECT customerId AS customerId, surname AS customerSurname, orderId, itemId, itemName, order_items.cost AS totalCost, "
+				+ "numItems, items.cost AS itemCost FROM orders "
+				+ "INNER JOIN order_items ON orders.id=order_items.orderId "
+				+ "INNER JOIN items ON order_items.id=items.id "
+				+ "INNER JOIN customers ON orders.customerId=customers.id "
+				+ "WHERE order_items.orderId=?" );) {		
 			statement.setLong(1, id);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
-				return modelFromResultSet(resultSet);
+				return modelFromResultSetJoin(resultSet);
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);

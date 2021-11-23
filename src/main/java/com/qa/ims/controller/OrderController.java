@@ -9,6 +9,7 @@ import com.qa.ims.persistence.dao.CustomerDAO;
 import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.dao.OrderItemDAO;
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.JoinTable;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.Utils;
@@ -77,6 +78,15 @@ public class OrderController implements CrudController<Order>{
 		Order order = orderDAO.readLatest();
 		return order;
 		
+	}
+	
+	@Override
+	public Order readById() {
+	LOGGER.info("Please enter the id of the order you would like to find");
+	Long id = utils.getLong();
+	JoinTable order = orderDAO.readId(id);
+	LOGGER.info(order);
+		return null;
 	}
 
 }

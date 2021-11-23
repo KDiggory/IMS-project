@@ -46,7 +46,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		}
 		return new ArrayList<>();
 	}
-
+	// wont actually be used
 	@Override
 	public OrderItem read(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
