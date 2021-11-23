@@ -41,6 +41,7 @@ public class OrderDAO implements Dao<Order> {
 		return new JoinTable(customerId, customerSurname, orderId, itemId, itemName,itemCost, numItems,totalCost);
 		
 	}
+	
 
 	
 	public List<JoinTable> readAllOrders() {
@@ -53,7 +54,8 @@ public class OrderDAO implements Dao<Order> {
 						+ "INNER JOIN customers ON orders.customerId=customers.id; " );) {
 			List<JoinTable> orders = new ArrayList<>();
 			while (resultSet.next()) {
-				orders.add(modelFromResultSetJoin(resultSet));
+				orders.add(modelFromResultSetJoin(resultSet)); // adds one less than is actually there!!
+				System.out.println("while loop");
 			}
 			return orders;
 		} catch (SQLException e) {
@@ -83,7 +85,6 @@ public class OrderDAO implements Dao<Order> {
 			statement.setLong(1, id);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
-			
 				return modelFromResultSetJoin(resultSet);
 				
 			}
@@ -163,7 +164,59 @@ public class OrderDAO implements Dao<Order> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public List<JoinTable> readByCustomer(long id) {
+		Long totalCost = 0L;
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(
+				"SELECT customerId, surname AS customerSurname, orderId, itemId, itemName, order_items.cost AS totalCost, "
+				+ "numItems, items.cost AS itemCost FROM orders "
+				+ "INNER JOIN order_items ON orders.id=order_items.orderId "
+				+ "INNER JOIN items ON items.id=order_items.itemId "
+				+ "INNER JOIN customers ON orders.customerId=customers.id "
+				+ "WHERE orders.customerId=?" );) {	
+			statement.setLong(1, id);
+				ResultSet resultSet = statement.executeQuery();
+			List<JoinTable> orders = new ArrayList<>();
+			while (resultSet.next()) {
+				orders.add(modelFromResultSetJoin(resultSet));
+				
+			} 
+			return orders;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return new ArrayList<>();
 	}
+	
+	public long totalCost(long id) {
+		long totalCost = 0L;
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(
+				"SELECT customerId, surname AS customerSurname, orderId, itemId, itemName, order_items.cost AS totalCost, "
+				+ "numItems, items.cost AS itemCost FROM orders "
+				+ "INNER JOIN order_items ON orders.id=order_items.orderId "
+				+ "INNER JOIN items ON items.id=order_items.itemId "
+				+ "INNER JOIN customers ON orders.customerId=customers.id "
+				+ "WHERE orders.customerId=?" );) {	
+			statement.setLong(1, id);
+			ResultSet resultSet = statement.executeQuery();
+		List<JoinTable> orders = new ArrayList<>();
+		while (resultSet.next()) {
+			orders.add(modelFromResultSetJoin(resultSet));
+			
+		} for (JoinTable order : orders) {
+			totalCost = totalCost + order.getTotalCost();
+		}
+		return totalCost;
+	} catch (SQLException e) {
+		LOGGER.debug(e);
+		LOGGER.error(e.getMessage());
+	}
+	return totalCost;
+	}
+}
 
 	
 
