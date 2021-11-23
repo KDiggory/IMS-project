@@ -9,6 +9,7 @@ public class OrderItem {
 	private Long itemId;	
 	private String itemName;
 	private Long numItems;
+	private Long cost;
 	
 	public OrderItem(Long orderId,Long numItems) {
 		super();
@@ -16,21 +17,23 @@ public class OrderItem {
 		this.numItems = numItems;
 	}
 	
-	public OrderItem(Long id, Long orderId, Long itemId, String itemName, Long numItems) {
+	public OrderItem(Long id, Long orderId, Long itemId, String itemName, Long numItems, Long cost) {
 		super();
 		this.id = id;
 		this.orderId = orderId;
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.numItems = numItems;
+		this.cost = cost;
 	}
 	
-	public OrderItem(Long orderId, Long itemId, String itemName, Long numItems) {
+	public OrderItem(Long orderId, Long itemId, String itemName, Long numItems, Long cost) {
 		super();
 		this.orderId = orderId;
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.numItems = numItems;
+		this.cost = cost;
 	}
 
 	public Long getId() {
