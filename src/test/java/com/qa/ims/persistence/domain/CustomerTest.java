@@ -14,7 +14,7 @@ public class CustomerTest {
 	public void setup() {
 	customer = new Customer("Katie", "Diggory");
 	}
-
+//what is this?
 	@Test
 	public void testEquals() {
 		EqualsVerifier.simple().forClass(Customer.class).verify();
@@ -34,14 +34,15 @@ public class CustomerTest {
 		
 	}
 	@Test
-	public void getIdTest() { // not working yet
-		long expected = customer.getId();
-		long test = 1L;
+	public void getIdTest() { // not working yet - but must work as getId used in other tests..
+		customer.setId(1L); // works when you set id first
+		Long expected = customer.getId();
+		Long test = 1L;
 		assertEquals(expected, test); 
 	}
 	
 	@Test
-	public void setIdTest() {
+	public void setIdTest() {		
 		customer.setId(2L);
 		long expected = customer.getId();
 		long test = 2L;
