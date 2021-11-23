@@ -9,28 +9,29 @@ public class OrderItem {
 	private Long itemId;	
 	private String itemName;
 	private Long numItems;
+	private Long cost;
 	
-	public OrderItem(Long orderId,Long numItems) {
+	public OrderItem() {
 		super();
-		this.orderId = orderId;
-		this.numItems = numItems;
 	}
 	
-	public OrderItem(Long id, Long orderId, Long itemId, String itemName, Long numItems) {
+	public OrderItem(Long id, Long orderId, Long itemId, String itemName, Long cost, Long numItems) {
 		super();
 		this.id = id;
 		this.orderId = orderId;
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.numItems = numItems;
+		this.cost = cost;
 	}
 	
-	public OrderItem(Long orderId, Long itemId, String itemName, Long numItems) {
+	public OrderItem(Long orderId, Long itemId, String itemName, Long numItems, Long cost) {
 		super();
 		this.orderId = orderId;
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.numItems = numItems;
+		this.cost = cost;
 	}
 
 	public Long getId() {
@@ -73,9 +74,17 @@ public class OrderItem {
 		this.numItems = numItems;
 	}
 
+	public Long getCost() {
+		return cost;
+	}
+
+	public void setCost(Long cost) {
+		this.cost = cost;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, itemId, itemName, numItems, orderId);
+		return Objects.hash(cost, id, itemId, itemName, numItems, orderId);
 	}
 
 	@Override
@@ -87,7 +96,7 @@ public class OrderItem {
 		if (getClass() != obj.getClass())
 			return false;
 		OrderItem other = (OrderItem) obj;
-		return Objects.equals(id, other.id) && Objects.equals(itemId, other.itemId)
+		return Objects.equals(cost, other.cost) && Objects.equals(id, other.id) && Objects.equals(itemId, other.itemId)
 				&& Objects.equals(itemName, other.itemName) && Objects.equals(numItems, other.numItems)
 				&& Objects.equals(orderId, other.orderId);
 	}
@@ -95,9 +104,12 @@ public class OrderItem {
 	@Override
 	public String toString() {
 		return "OrderItem [id=" + id + ", orderId=" + orderId + ", itemId=" + itemId + ", itemName=" + itemName
-				+ ", numItems=" + numItems + "]";
+				+ ", numItems=" + numItems + ", cost=" + cost + "]";
 	}
 	
 	
-
+	
+	
+	
+	
 }

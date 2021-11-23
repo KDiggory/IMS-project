@@ -22,6 +22,8 @@ public class ItemController implements CrudController<Item> {
 		this.utils = utils;
 	}
 
+	
+	//reads all items to the logger
 	@Override
 	public List<Item> readAll() {
 		List<Item> items = itemDAO.readAll();
@@ -30,7 +32,7 @@ public class ItemController implements CrudController<Item> {
 		}
 		return items;
 	}
-
+	// creates an item - 3 parameters, name size and cost
 	@Override
 	public Item create() {
 		LOGGER.info("Please enter the item name");
@@ -40,25 +42,27 @@ public class ItemController implements CrudController<Item> {
 		LOGGER.info("Please enter the cost");
 		Long cost = utils.getLong();
 		Item item = itemDAO.create(new Item(name, size, cost));
+		// need an if statement to determine if this has actually happened
 		LOGGER.info("Item created");
 		return item;
 	}
 
+	//updates the item by id
 	@Override
 	public Item update() {
 		LOGGER.info("Please enter the id of the item you would like to update");
 		Long id = utils.getLong();
-		LOGGER.info("Please enter the item name");
+		LOGGER.info("Please enter the new item name");
 		String name = utils.getString();
-		LOGGER.info("Please enter the item size");
+		LOGGER.info("Please enter the new item size");
 		String size = utils.getString();
-		LOGGER.info("Please enter the cost");
+		LOGGER.info("Please enter the new cost");
 		Long cost = utils.getLong();
-		Item item = itemDAO.create(new Item(id, name, size, cost));
+		Item item = itemDAO.update(new Item(id, name, size, cost));
 		LOGGER.info("Item updated");
 		return item;
 	}
-
+	// deletes an item by id
 	@Override
 	public int delete() {
 		LOGGER.info("Please enter the id of the item you would like to delete");

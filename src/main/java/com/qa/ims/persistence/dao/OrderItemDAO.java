@@ -26,7 +26,8 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		Long itemId = resultSet.getLong("itemId");
 		String itemName = resultSet.getString("itemName");
 		Long numItems = resultSet.getLong("numItems");
-		return new OrderItem (orderId, itemId, itemName, numItems);
+		Long cost = resultSet.getLong("cost");
+		return new OrderItem (orderId, itemId, itemName, numItems, cost);
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 	@Override
 	public OrderItem read(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orderItems WHERE id = ?");) {
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM order_items WHERE id = ?");) {
 			statement.setLong(1, id);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
@@ -69,12 +70,13 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orderItems (orderId, itemId, itemName, numItems)"
-								+ "VALUES ( ?,?,?,?)");) {
+						.prepareStatement("INSERT INTO order_items (orderId, itemId, itemName, cost, numItems)"
+								+ "VALUES ( ?,?,?,?,?)");) {
 			statement.setLong(1,  latest.getId()); 
 			statement.setLong(2, orderItem.getItemId());
 			statement.setString(3,  orderItem.getItemName());
-			statement.setLong(4,  orderItem.getNumItems());
+			statement.setLong(4,  orderItem.getCost());
+			statement.setLong(5,  orderItem.getNumItems());
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
@@ -84,7 +86,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		return null;
 	}
 
-	OrderItem readLatest() {
+	public OrderItem readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items ORDER BY id DESC LIMIT 1");) {
@@ -101,13 +103,14 @@ public class OrderItemDAO implements Dao<OrderItem> {
 	public OrderItem update(OrderItem orderItem) {
 			try (Connection connection = DBUtils.getInstance().getConnection();
 					PreparedStatement statement = connection
-							.prepareStatement("UPDATE order_items SET orderId=?, itemId=?, itemName=?, numItems=?)"
+							.prepareStatement("UPDATE order_items SET orderId=?, itemId=?, itemName=?, numItems=?, cost=?)"
 									+ "WHERE id =?");) {
 				statement.setLong(1,  orderItem.getOrderId());
 				statement.setLong(2, orderItem.getItemId());
 				statement.setString(3,  orderItem.getItemName());
 				statement.setLong(4,  orderItem.getNumItems());
 				statement.setLong(5, orderItem.getId());
+				statement.setLong(6, orderItem.getCost());
 				statement.executeUpdate();
 				return readLatest();
 			} catch (Exception e) {
