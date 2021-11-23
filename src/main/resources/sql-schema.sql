@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`items` (
     `size` VARCHAR(40)  NOT NULL,
     `cost` INT  NOT NULL,
     PRIMARY KEY (`id`)
-    ON UPDATE CASCADE
+    
     );
     
 
