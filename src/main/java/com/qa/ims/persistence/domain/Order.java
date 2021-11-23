@@ -22,7 +22,6 @@ public class Order {
 		super();
 		this.id = id;
 		this.customerId = customerId;
-
 	}
 
 	public Long getId() {

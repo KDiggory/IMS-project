@@ -23,20 +23,13 @@ public class OrderDAO implements Dao<Order> {
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("id");
-		Long customerId = resultSet.getLong("customerId");
-		Long orderId = resultSet.getLong("orderId");
-		Long itemId = resultSet.getLong("itemId");
-		String itemName = resultSet.getString("itemName");
-		Long totalCost = resultSet.getLong("totalCost");
-		Long numItems = resultSet.getLong("numItems");
-		Long itemCost = resultSet.getLong("itemCost");
-		
+		Long customerId = resultSet.getLong("customerId");		
 		return new Order(id, customerId);
 		
 	}
 	
 	public JoinTable modelFromResultSetJoin(ResultSet resultSet) throws SQLException {
-//		Long id = resultSet.getLong("id");
+
 		Long customerId = resultSet.getLong("customerId");
 		Long orderId = resultSet.getLong("orderId");
 		Long itemId = resultSet.getLong("itemId");
@@ -53,11 +46,11 @@ public class OrderDAO implements Dao<Order> {
 	public List<JoinTable> readAllOrders() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT customerId AS customerId, surname AS customerSurname, orderId, itemId, itemName, order_items.cost AS totalCost, "
+				ResultSet resultSet = statement.executeQuery("SELECT customerId, surname AS customerSurname, orderId, itemId, itemName, order_items.cost AS totalCost, " // This SQL statement works in workbench
 						+ "numItems, items.cost AS itemCost FROM orders "
 						+ "INNER JOIN order_items ON orders.id=order_items.orderId "
-						+ "INNER JOIN items ON order_items.id=items.id "
-						+ "INNER JOIN customers ON orders.customerId=customers.id;" );) {
+						+ "INNER JOIN items ON items.id=order_items.itemId "
+						+ "INNER JOIN customers ON orders.customerId=customers.id; " );) {
 			List<JoinTable> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(modelFromResultSetJoin(resultSet));
@@ -81,18 +74,21 @@ public class OrderDAO implements Dao<Order> {
 	public JoinTable readId(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(
-				"SELECT customerId AS customerId, surname AS customerSurname, orderId, itemId, itemName, order_items.cost AS totalCost, "
+				"SELECT customerId, surname AS customerSurname, orderId, itemId, itemName, order_items.cost AS totalCost, "
 				+ "numItems, items.cost AS itemCost FROM orders "
 				+ "INNER JOIN order_items ON orders.id=order_items.orderId "
-				+ "INNER JOIN items ON order_items.id=items.id "
+				+ "INNER JOIN items ON items.id=order_items.itemId "
 				+ "INNER JOIN customers ON orders.customerId=customers.id "
 				+ "WHERE order_items.orderId=?" );) {		
 			statement.setLong(1, id);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
+			
 				return modelFromResultSetJoin(resultSet);
+				
 			}
 		} catch (Exception e) {
+			
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
@@ -114,7 +110,7 @@ public class OrderDAO implements Dao<Order> {
 		return null;
 	}
 	
-	
+	//needs changing
 	@Override
 	public Order update(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -123,6 +119,7 @@ public class OrderDAO implements Dao<Order> {
 			statement.setLong(1, order.getCustomerId());
 			statement.setLong(2, order.getId());
 			statement.executeUpdate();
+			
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -132,7 +129,7 @@ public class OrderDAO implements Dao<Order> {
 	}
 
 
-
+	//needs changing - or does it because of the on delete cascade??
 	@Override
 	public int delete(long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -147,7 +144,7 @@ public class OrderDAO implements Dao<Order> {
 	}
 
 	
-	
+	//needs changing
 	public Order readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
