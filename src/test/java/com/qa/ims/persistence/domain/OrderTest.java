@@ -42,7 +42,6 @@ public class OrderTest {
 	}
 	@Test
 	public void getCustomerIdTest() {
-		//	order.setCustomerId(1L); // have to set the id first before it is happy to get it for this one?!! why?
 			Long expected = order.getCustomerId();
 			Long test = 1L;
 			assertEquals(expected, test); 
