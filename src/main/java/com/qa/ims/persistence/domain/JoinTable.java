@@ -27,7 +27,7 @@ public class JoinTable {
 
 	@Override
 	public String toString() {
-		return "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+		return "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" 
 				+ "\nOrder number:" + orderId +
 				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 				+ "\ncustomerId:\t\t" + customerId + "\ncustomerSurname:\t" + customerSurname 

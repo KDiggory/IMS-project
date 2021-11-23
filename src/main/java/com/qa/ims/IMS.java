@@ -79,7 +79,7 @@ public class IMS {
 				break;
 			}
 
-			LOGGER.info(() ->"\nWhat would you like to do with " + domain.name().toLowerCase() + ":");
+			LOGGER.info(() -> "\nWhat would you like to do with " + domain.name().toLowerCase() + ":");
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 			Action.printActions();
@@ -102,12 +102,17 @@ public class IMS {
 			LOGGER.info("Would you like to read all or by id?");
 			String answer = utils.getString();
 			if (answer.contains("all")) {
-			if (crudController == this.orders ) {
-				((OrderController) crudController).readAllOrders(); // need a different read for the orders
-			} else
-			crudController.readAll();
-			} else if (answer.contains("id")) {
+				if (crudController == this.orders ) {
+					((OrderController) crudController).readAllOrders(); // need a different read for the orders
+				} else if ((crudController != this.orders ))  {
+					crudController.readAll();
+			} 
+				}else if (answer.contains("id")) {
+				if (crudController == this.orders ) {
+					((OrderController) crudController).readById();
+				} else if ((crudController != this.orders ))  {
 				crudController.readById();	
+				}
 			} 
 			break;
 		case UPDATE:
@@ -121,6 +126,7 @@ public class IMS {
 		default:
 			break;
 		}
-	}
+	
 
+}
 }

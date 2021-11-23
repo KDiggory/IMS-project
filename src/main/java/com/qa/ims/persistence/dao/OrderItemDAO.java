@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.persistence.domain.JoinTable;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.DBUtils;
@@ -46,6 +47,24 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		}
 		return new ArrayList<>();
 	}
+	
+	
+//	public List<JoinTable> readAllJoin() {
+//		try (Connection connection = DBUtils.getInstance().getConnection();
+//				Statement statement = connection.createStatement();
+//				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items");) {
+//			List<OrderItem> orderItems = new ArrayList<>();
+//			while (resultSet.next()) {
+//				orderItems.add(modelFromResultSet(resultSet));
+//			}
+//			return orderItems;
+//		} catch (SQLException e) {
+//			LOGGER.debug(e);
+//			LOGGER.error(e.getMessage());
+//		}
+//		return new ArrayList<>();
+//	}
+	
 	// wont actually be used
 	@Override
 	public OrderItem read(Long id) {
@@ -101,22 +120,22 @@ public class OrderItemDAO implements Dao<OrderItem> {
 
 	@Override
 	public OrderItem update(OrderItem orderItem) {
-			try (Connection connection = DBUtils.getInstance().getConnection();
-					PreparedStatement statement = connection
-							.prepareStatement("UPDATE order_items SET orderId=?, itemId=?, itemName=?, numItems=?, cost=?)"
-									+ "WHERE id =?");) {
-				statement.setLong(1,  orderItem.getOrderId());
-				statement.setLong(2, orderItem.getItemId());
-				statement.setString(3,  orderItem.getItemName());
-				statement.setLong(4,  orderItem.getNumItems());
-				statement.setLong(5, orderItem.getId());
-				statement.setLong(6, orderItem.getCost());
-				statement.executeUpdate();
-				return readLatest();
-			} catch (Exception e) {
-				LOGGER.debug(e);
-				LOGGER.error(e.getMessage());
-			}
+//			try (Connection connection = DBUtils.getInstance().getConnection();
+//					PreparedStatement statement = connection
+//							.prepareStatement("UPDATE order_items SET orderId=?, itemId=?, itemName=?, numItems=?, cost=?)"
+//									+ "WHERE id =?");) {
+//				statement.setLong(1,  orderItem.getOrderId());
+//				statement.setLong(2, orderItem.getItemId());
+//				statement.setString(3,  orderItem.getItemName());
+//				statement.setLong(4,  orderItem.getNumItems());
+//				statement.setLong(5, orderItem.getId());
+//				statement.setLong(6, orderItem.getCost());
+//				statement.executeUpdate();
+//				return readLatest();
+//			} catch (Exception e) {
+//				LOGGER.debug(e);
+//				LOGGER.error(e.getMessage());
+//			}
 			return null;
 		}
 
@@ -132,7 +151,26 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		}
 		return 0;
 	}
+
+	public OrderItem updateOrder(OrderItem orderItem) {
+		Long id = orderItem.getOrderId();
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement(("UPDATE order_items SET itemId = ?, numItems = ? WHERE orderId = "+ id));){
+			statement.setLong(1, orderItem.getItemId());
+			statement.setLong(2,  orderItem.getNumItems());
+			//statement.setLong(3,  orderItem.getOrderId());
+			statement.executeUpdate();
+			return read(orderItem.getOrderId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
 	}
+}
+
+
 
 	
 

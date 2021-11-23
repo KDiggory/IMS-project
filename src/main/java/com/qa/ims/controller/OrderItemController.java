@@ -57,30 +57,44 @@ public class OrderItemController implements CrudController<OrderItem> {
 		LOGGER.info("Please enter the number of this item you would like");
 		Long numItems = utils.getLong();
 
-//		Long custId = order.getCustomerId();
+		Long custId = order.getCustomerId();
 		Item item = itemDAO.read(itemId);
 		String itemName = item.getName();
 		Long cost = item.getCost();
-//		System.out.println(cost);
+		System.out.println(cost);
 		Long costTotal = cost * numItems;
-//		System.out.println(costTotal);
-		OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, itemId, itemName, numItems, costTotal)); // this is the problem
-		// readLatest 
-		orderItemDAO.readLatest();
-		
+		//System.out.println(costTotal);
+		OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, itemId, itemName, numItems, costTotal)); // this is WAS the problem
 		LOGGER.info("Order Item created");
-		return orderItem;
+		
+		LOGGER.info(orderItemDAO.readLatest());
+		return orderItemDAO.readLatest();
 	}
 
-	@Override
-	public OrderItem update() {
-		
+	
+	
+	public OrderItem updateOrder(Order order) {
+		OrderDAO orderDAO = new OrderDAO();
+		CustomerDAO customerDAO = new CustomerDAO();
+		ItemDAO itemDAO = new ItemDAO();
+		OrderItemDAO orderItemDAO = new OrderItemDAO();
+
+		OrderController orderController = new OrderController(orderDAO, utils);
+		LOGGER.info("Please enter updated item id");
+		Long itemId = utils.getLong();
+		LOGGER.info("Please enter number of these you would like");
+		Long numItems = utils.getLong();
+		Long id = order.getId();
+		OrderItem orderItem = orderItemDAO.updateOrder(new OrderItem(id, itemId, numItems)); // problem here! - the customerId is updating but falling overt when it gets to changing the itemId
+		//LOGGER.info(orderItemDAO.read(orderItem.getOrderId())); // problem is now here - removing this line means it doesn't throw an exception just an sql error
 		return null;
 	}
 
+	
+	// Update order is not working - it changes the customer Id but not the rest. Currenly it is saying its an illegal operation on an empty result set even though there are things in there. Also need to set on cascase update if possible?
 	@Override
 	public int delete() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -88,6 +102,18 @@ public class OrderItemController implements CrudController<OrderItem> {
 	public OrderItem readById(Long id) {
 		OrderItem orderItem = orderItemDAO.read(id);
 		return orderItem;
+	}
+	
+	// not needed for order items - had to make own because didnt make whole new set for order items as they arent accessed alone
+	@Override
+	public OrderItem readById() {
+		return null;
+	}
+	
+	// not needed for order items - had to make own because didnt make whole new set for order items as they arent accessed alone 
+	@Override
+	public OrderItem update() {
+		return null;
 	}
 
 }

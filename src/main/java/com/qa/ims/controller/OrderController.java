@@ -12,6 +12,7 @@ import com.qa.ims.persistence.dao.OrderItemDAO;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.JoinTable;
 import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.Utils;
 
 public class OrderController implements CrudController<Order>{
@@ -42,8 +43,10 @@ public class OrderController implements CrudController<Order>{
 	
 	public List<JoinTable> readAllOrders() {
 		List<JoinTable> orders = orderDAO.readAllOrders();
+		System.out.println(orders.toString());
 		for (JoinTable order : orders) {
-			LOGGER.info(order);
+			//LOGGER.info(order); // with this in as well everything is printed twice
+			
 		}
 		return orders;
 	}
@@ -53,7 +56,6 @@ public class OrderController implements CrudController<Order>{
 		LOGGER.info("Please enter the customer id");
 		Long customerId = utils.getLong();
 		Order order = orderDAO.create(new Order(customerId));
-		LOGGER.info("Order created");
 		OrderItemController orderItemController = new OrderItemController(orderItemDAO, utils);
 		orderItemController.create();
 		return order;
@@ -64,12 +66,18 @@ public class OrderController implements CrudController<Order>{
 	public int delete() {
 		LOGGER.info("Please enter the id of the order you would like to delete");
 		Long id = utils.getLong();
-		return customerDAO.delete(id);
+		return orderDAO.delete(id);
 	}
 
 	@Override
 	public Order update() {
-		// TODO Auto-generated method stub
+		LOGGER.info("Please enter the id of the order you would like to update");
+		Long id = utils.getLong();
+		LOGGER.info("Please enter updated customer id");
+		Long custId = utils.getLong();
+		Order order = orderDAO.update(new Order(id, custId));
+		OrderItemController orderItemController = new OrderItemController(orderItemDAO, utils);
+		orderItemController.updateOrder(order); // problem here 
 		return null;
 	}
 	

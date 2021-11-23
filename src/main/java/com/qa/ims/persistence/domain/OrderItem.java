@@ -33,6 +33,13 @@ public class OrderItem {
 		this.numItems = numItems;
 		this.cost = cost;
 	}
+	
+	public OrderItem(Long orderId, Long itemId, Long numItems) {
+		super();
+		this.orderId = orderId;
+		this.itemId = itemId;
+		this.numItems = numItems;
+	}
 
 	public Long getId() {
 		return id;
