@@ -45,8 +45,7 @@ public class OrderController implements CrudController<Order>{
 		Order order = orderDAO.create(new Order(customerId));
 		LOGGER.info("Order created");
 		OrderItemController orderItemController = new OrderItemController(orderItemDAO, utils);
-		System.out.println("Adding items to the order");
-		(orderItemController).create();
+		orderItemController.create();
 		return order;
 	}
 

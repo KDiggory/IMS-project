@@ -23,7 +23,9 @@ public class OrderDAO implements Dao<Order> {
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("id");
 		Long customerId = resultSet.getLong("customerId");
-		return new Order (customerId);
+		System.out.println();
+		return new Order(id, customerId);
+		
 	}
 
 	@Override
@@ -67,13 +69,10 @@ public class OrderDAO implements Dao<Order> {
 								+ "VALUES (?)");) {
 			statement.setLong(1, order.getCustomerId());
 			statement.executeUpdate();
-			System.out.println(order.getId());
-			readAll();
-			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
-		}
+		} 
 		return null;
 	}
 	
@@ -115,9 +114,7 @@ public class OrderDAO implements Dao<Order> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY id DESC LIMIT 1");) {
-			resultSet.next(); 
-			//System.out.println(modelFromResultSet(resultSet)); // result set is coming up with null for id.
-			
+			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -125,6 +122,7 @@ public class OrderDAO implements Dao<Order> {
 		}
 		return null;
 	}
+	}
 
 	
-}
+

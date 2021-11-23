@@ -24,12 +24,11 @@ public class OrderItemController implements CrudController<OrderItem> {
 	private OrderItemDAO orderItemDAO;
 	private Utils utils;
 
-	public OrderItemController(OrderItemDAO orderItemDAO,Utils utils ) {
+	public OrderItemController(OrderItemDAO orderItemDAO, Utils utils) {
 		super();
 		this.utils = utils;
 		this.orderItemDAO = orderItemDAO;
 	}
-
 
 	@Override
 	public List<OrderItem> readAll() {
@@ -46,21 +45,22 @@ public class OrderItemController implements CrudController<OrderItem> {
 		CustomerDAO customerDAO = new CustomerDAO();
 		ItemDAO itemDAO = new ItemDAO();
 		OrderItemDAO orderItemDAO = new OrderItemDAO();
-		
-		OrderController orderController = new OrderController(orderDAO, utils); 
+
+		OrderController orderController = new OrderController(orderDAO, utils);
 		Order order = orderController.readLatest();
-		System.out.println(order.toString());
-		
 		Long orderId = order.getId();
+
 		LOGGER.info("Please enter the Item id");
 		Long itemId = utils.getLong();
 		LOGGER.info("Please enter the number of this item you would like");
 		Long numItems = utils.getLong();
-		
-		Long custId = order.getCustomerId();
+
+//		Long custId = order.getCustomerId();
 		Item item = itemDAO.read(itemId);
 		String itemName = item.getName();
-		OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, itemId, itemName, numItems));
+		Long cost = item.getCost();
+		cost = cost * numItems;
+		OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, itemId, itemName, numItems, cost));
 		LOGGER.info("Order Item created");
 		return orderItem;
 	}
@@ -78,4 +78,3 @@ public class OrderItemController implements CrudController<OrderItem> {
 	}
 
 }
-
