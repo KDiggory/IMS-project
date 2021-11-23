@@ -93,8 +93,7 @@ public class OrderItemController implements CrudController<OrderItem> {
 	
 	// Update order is not working - it changes the customer Id but not the rest. Currenly it is saying its an illegal operation on an empty result set even though there are things in there. Also need to set on cascase update if possible?
 	@Override
-	public int delete() {
-		
+	public int delete() { // this isn't required for order items as you delete from the order not the order item.
 		return 0;
 	}
 
