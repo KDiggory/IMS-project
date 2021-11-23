@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
     `surname` VARCHAR(40) DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
+
 DROP TABLE IF EXISTS `items`;
 
 CREATE TABLE IF NOT EXISTS `items` (
