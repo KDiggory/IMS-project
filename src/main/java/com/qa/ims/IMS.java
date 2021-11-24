@@ -28,7 +28,7 @@ public class IMS {
 	private final Utils utils;
 
 	public IMS() {
-		this.utils = new Utils();
+		this.utils = new Utils(); 
 		final CustomerDAO custDAO = new CustomerDAO();
 		final ItemDAO itemDAO = new ItemDAO();
 		final OrderDAO orderDAO = new OrderDAO();
@@ -112,7 +112,9 @@ public class IMS {
 						LOGGER.info("Would you like to read by order id or customer id?");
 						String answer2 = utils.getString();
 						if (answer2.contains("order")) {
-							((OrderController) crudController).readById();	
+							// here 
+							
+							((OrderController) crudController).readIdTable();	
 					} else if (answer2.contains("customer")) {
 						((OrderController) crudController).readByCustomer();	
 					}
@@ -120,12 +122,21 @@ public class IMS {
 					} else {
 						crudController.readById();
 					}
-					
 				} 
 			} 
 			break;
 		case UPDATE:
-			crudController.update();
+			if (crudController == this.orders ) {
+				LOGGER.info("When updating your order you can just add or remove items, would you like to add or remove items from an order?");
+				String answer3 = utils.getString();
+				if (answer3.contains("add")) {
+				((OrderController) crudController).addToOrder();
+				} else if(answer3.contains("remove")) {
+					((OrderController) crudController).removeFromOrder();
+				}
+			} else if ((crudController != this.orders ))  {
+				crudController.update();
+		} 
 			break;
 		case DELETE:
 			crudController.delete();

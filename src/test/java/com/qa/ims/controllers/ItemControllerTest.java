@@ -102,7 +102,7 @@ public class ItemControllerTest {
 
 		assertEquals(testItem, controller.readById());
 
-		Mockito.verify(DAO, Mockito.times(1)).readAll();
+		Mockito.verify(DAO, Mockito.times(1)).read(ID);
 	}
 		
 	}
