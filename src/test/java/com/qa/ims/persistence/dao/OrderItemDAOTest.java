@@ -41,8 +41,19 @@ private final OrderItemDAO DAO = new OrderItemDAO();
 		assertEquals(new OrderItem(ID,1L, "beer", 2L, 2L), DAO.read(ID));
 	}
 	
+	
+	@Test 
+	public void testDeleteFromOrder() {
+		assertEquals(1, DAO.deleteFromOrder(1,1));
+		
+	}
+	
 	@Test
-	public void testUpdate() { // need to fix the update method first!!
+	public void updateOrder() {
+		OrderItem item = new OrderItem(1L, 1L,"beer", 1L, 2L);
+		assertEquals(item, DAO.updateOrder(item));
+		
+		
 		
 	}
 	

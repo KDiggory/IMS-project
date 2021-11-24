@@ -126,7 +126,7 @@ public class ItemDAO implements Dao<Item> {
 		return null;
 	}
 	
-	public String getItemNums() {
+	public String getItemNums() { 
 		String availableItemNums = "Available Items:\n";
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();

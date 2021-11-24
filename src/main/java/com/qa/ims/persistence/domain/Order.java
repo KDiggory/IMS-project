@@ -13,7 +13,7 @@ public class Order {
 	}
 
 	public Order(Long customerId) {
-		super();
+		super(); 
 		this.customerId = customerId;
 
 	}

@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS `order_items`;
+ DROP TABLE IF EXISTS `orders`; 
+ DROP TABLE IF EXISTS `items`;
 DROP TABLE IF EXISTS `customers`;
 
 CREATE TABLE IF NOT EXISTS `customers` (
@@ -7,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
     PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `items`;
+
 
 CREATE TABLE IF NOT EXISTS `items` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -17,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `items` (
     PRIMARY KEY (`id`)
     
     );
- DROP TABLE IF EXISTS `orders`; 
+
     
     CREATE TABLE IF NOT EXISTS `orders` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -27,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   ON DELETE CASCADE
   ON UPDATE CASCADE
 );
-DROP TABLE IF EXISTS `order_items`;
+
 
 CREATE TABLE IF NOT EXISTS `order_items` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,

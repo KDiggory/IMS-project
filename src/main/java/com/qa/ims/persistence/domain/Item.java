@@ -57,23 +57,23 @@ public class Item {
 		this.cost = cost;
 	}
 
-//	@Override
-//	public int hashCode() {
-//		return Objects.hash(cost, id, name, size);
-//	}
-//
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		Item other = (Item) obj;
-//		return Objects.equals(cost, other.cost) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
-//				&& Objects.equals(size, other.size);
-//	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(cost, id, name, size);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		return Objects.equals(cost, other.cost) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(size, other.size);
+	}
 
 	@Override
 	public String toString() {
