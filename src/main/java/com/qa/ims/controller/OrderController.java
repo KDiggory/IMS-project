@@ -145,5 +145,22 @@ public class OrderController implements CrudController<Order>{
 		
 		
 	}
+	public void addToOrder() {
+		LOGGER.info("Please enter the order id you would like to add to");
+		Long id = utils.getLong();
+		OrderItemDAO orderItemDAO = new OrderItemDAO();
+		OrderItemController controller = new OrderItemController(orderItemDAO, utils);
+		controller.addToOrder(id);
+	}
+
+
+	public void removeFromOrder() {
+		LOGGER.info("Please enter the order id you would like to remove from");
+		Long id = utils.getLong();
+		OrderItemDAO orderItemDAO = new OrderItemDAO();
+		OrderItemController controller = new OrderItemController(orderItemDAO, utils);
+		controller.removeFromOrder(id);
+		
+	}
 
 }

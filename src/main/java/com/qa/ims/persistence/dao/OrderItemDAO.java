@@ -151,6 +151,21 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		}
 		return 0;
 	}
+	
+	public int deleteFromOrder(long id, long itemId) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE orderId = ? AND itemId=?");) {
+			statement.setLong(1, id);
+			statement.setLong(2,  itemId);
+			return statement.executeUpdate();
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return 0;
+	}
+	
+	
 
 	public OrderItem updateOrder(OrderItem orderItem) {
 		Long id = orderItem.getOrderId();

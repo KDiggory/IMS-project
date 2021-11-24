@@ -126,7 +126,17 @@ public class IMS {
 			} 
 			break;
 		case UPDATE:
-			crudController.update();
+			if (crudController == this.orders ) {
+				LOGGER.info("When updating your order you can just add or remove items, would you like to add or remove items from an order?");
+				String answer3 = utils.getString();
+				if (answer3.contains("add")) {
+				((OrderController) crudController).addToOrder();
+				} else if(answer3.contains("remove")) {
+					((OrderController) crudController).removeFromOrder();
+				}
+			} else if ((crudController != this.orders ))  {
+				crudController.update();
+		} 
 			break;
 		case DELETE:
 			crudController.delete();

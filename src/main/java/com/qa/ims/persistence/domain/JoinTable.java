@@ -35,7 +35,7 @@ public class JoinTable {
 				+ "\ntotalCost:\t\t" + totalCost ;
 	}
 
-	public Long getCustomerId() {
+	public Long getCustomerId() { 
 		return customerId;
 	}
 

@@ -117,6 +117,14 @@ public class OrderItemController implements CrudController<OrderItem> {
 		// print the available ids - makes it easier for customer to choose
 	}
 	
+	public OrderItem removeFromOrder(Long id) {
+		LOGGER.info("Please enter the id of this item you would like to remove");
+		Long itemId = utils.getLong();
+		orderItemDAO.deleteFromOrder(id,itemId);
+		
+		return null;
+	}
+	
 	public OrderItem updateOrder(Order order) {
 		OrderDAO orderDAO = new OrderDAO();
 		CustomerDAO customerDAO = new CustomerDAO();
