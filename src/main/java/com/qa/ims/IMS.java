@@ -28,7 +28,7 @@ public class IMS {
 	private final Utils utils;
 
 	public IMS() {
-		this.utils = new Utils();
+		this.utils = new Utils(); 
 		final CustomerDAO custDAO = new CustomerDAO();
 		final ItemDAO itemDAO = new ItemDAO();
 		final OrderDAO orderDAO = new OrderDAO();
@@ -112,7 +112,9 @@ public class IMS {
 						LOGGER.info("Would you like to read by order id or customer id?");
 						String answer2 = utils.getString();
 						if (answer2.contains("order")) {
-							((OrderController) crudController).readById();	
+							// here 
+							
+							((OrderController) crudController).readIdTable();	
 					} else if (answer2.contains("customer")) {
 						((OrderController) crudController).readByCustomer();	
 					}
@@ -120,7 +122,6 @@ public class IMS {
 					} else {
 						crudController.readById();
 					}
-					
 				} 
 			} 
 			break;

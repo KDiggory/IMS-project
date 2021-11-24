@@ -10,6 +10,7 @@ import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.dao.OrderItemDAO;
 import com.qa.ims.persistence.domain.Item;
+import com.qa.ims.persistence.domain.JoinTable;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.Utils;
@@ -17,7 +18,7 @@ import com.qa.ims.utils.Utils;
 public class OrderItemController implements CrudController<OrderItem> {
 
 	public static final Logger LOGGER = LogManager.getLogger();
-
+ 
 	private OrderDAO orderDAO;
 	private CustomerDAO customerDAO;
 	private ItemDAO itemDAO;
@@ -43,7 +44,7 @@ public class OrderItemController implements CrudController<OrderItem> {
 	public OrderItem create() {
 		
 		// always accessed through order create
-		OrderDAO orderDAO = new OrderDAO();
+		OrderDAO orderDAO = new OrderDAO();		//move these to the top of the class 
 		CustomerDAO customerDAO = new CustomerDAO();
 		ItemDAO itemDAO = new ItemDAO();
 		OrderItemDAO orderItemDAO = new OrderItemDAO();
@@ -61,17 +62,60 @@ public class OrderItemController implements CrudController<OrderItem> {
 		Item item = itemDAO.read(itemId);
 		String itemName = item.getName();
 		Long cost = item.getCost();
-		System.out.println(cost);
+		//System.out.println(cost);
 		Long costTotal = cost * numItems;
 		//System.out.println(costTotal);
 		OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, itemId, itemName, numItems, costTotal)); // this is WAS the problem
 		LOGGER.info("Order Item created");
-		
-		LOGGER.info(orderItemDAO.readLatest());
+		LOGGER.info(orderItemDAO.readLatest()); // add an option to add more items here - reference add to order method
+		LOGGER.info("Would you like to add another item to this order?");
+		String answer = utils.getString();
+		if (answer.contains("y")){
+			addToOrder(orderId);
+		} else if (answer.contains("n")) {
+			LOGGER.info("You can come back and do this later if you change your mind");
+		}
 		return orderItemDAO.readLatest();
 	}
 
-	
+	public OrderItem addToOrder(Long id) {
+		OrderDAO orderDAO = new OrderDAO();		//move these to the top of the class 
+		CustomerDAO customerDAO = new CustomerDAO();
+		ItemDAO itemDAO = new ItemDAO();
+		OrderItemDAO orderItemDAO = new OrderItemDAO();
+
+		OrderController orderController = new OrderController(orderDAO, utils);
+		JoinTable order = orderController.readByIdInput(id); // this is coming back as null
+		System.out.println(order);
+		//Order order = orderDAO.read(id);
+		LOGGER.info("Please enter the Item id");
+		Long itemId = utils.getLong();
+		LOGGER.info("Please enter the number of this item you would like");
+		Long numItems = utils.getLong();
+
+		Long custId = order.getCustomerId(); // this is not working because order is null!
+		Item item = itemDAO.read(itemId);
+		String itemName = item.getName();
+		Long cost = item.getCost();
+		//System.out.println(cost);
+		Long costTotal = cost * numItems;
+		//System.out.println(costTotal);
+		OrderItem orderItem = orderItemDAO.create(new OrderItem(id, itemId, itemName, numItems, costTotal)); // this is WAS the problem
+		LOGGER.info("Order Item created");
+		LOGGER.info(orderItemDAO.readLatest()); // add an option to add more items here - reference add to order method
+		LOGGER.info("Would you like to add another item to this order?");
+		String answer = utils.getString();
+		if (answer.contains("y")){
+			addToOrder(id);
+		} else if (answer.contains("n")) {
+			LOGGER.info("You can come back and do this later if you change your mind");
+		}
+		LOGGER.info(orderDAO.readIdTable(id)); // add an option to add more items here - reference add to order method
+		
+		return null;
+		//add another item to the order - create but dont use the read latest id for order - input the order id
+		// print the available ids - makes it easier for customer to choose
+	}
 	
 	public OrderItem updateOrder(Order order) {
 		OrderDAO orderDAO = new OrderDAO();
@@ -97,7 +141,6 @@ public class OrderItemController implements CrudController<OrderItem> {
 		return 0;
 	}
 
-	
 	public OrderItem readById(Long id) {
 		OrderItem orderItem = orderItemDAO.read(id);
 		return orderItem;

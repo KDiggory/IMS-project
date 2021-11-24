@@ -43,9 +43,8 @@ public class OrderController implements CrudController<Order>{
 	
 	public List<JoinTable> readAllOrders() {
 		List<JoinTable> orders = orderDAO.readAllOrders();
-		System.out.println(orders.size());
+		//System.out.println(orders.size());
 		for (JoinTable order : orders) {
-			System.out.println("in for loop");
 			LOGGER.info(order); // with this in as well everything is printed twice
 		}
 		return orders;
@@ -66,7 +65,7 @@ public class OrderController implements CrudController<Order>{
 	public int delete() {
 		LOGGER.info("Please enter the id of the order you would like to delete");
 		Long id = utils.getLong();
-		return orderDAO.delete(id);
+		return orderDAO.delete(id); 
 	}
 
 	@Override
@@ -97,6 +96,12 @@ public class OrderController implements CrudController<Order>{
 		return null;
 	}
 	
+	public JoinTable readByIdInput(Long id) {
+		JoinTable order = orderDAO.readId(id);
+		LOGGER.info(order);
+			return order;
+		} 
+	
 	public List<JoinTable> readByCustomer(){
 		LOGGER.info("Please enter the customer id of the orders you would like to find");
 		Long id = utils.getLong();
@@ -116,6 +121,28 @@ public class OrderController implements CrudController<Order>{
 		System.out.println("\nThe total sum for customer number " + id + ": £" + totalSum);
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return totalSum;
+		
+	}
+	
+	public Long getTotalOrder(Long id) {
+		Long totalSum = orderDAO.totalCostByOrder(id);
+		System.out.println();
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("\nThe total sum for order number " + id + ": £" + totalSum);
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		return totalSum;
+		
+	}
+	public List<JoinTable> readIdTable() {
+		LOGGER.info("Please enter the order id you would like to find");
+		Long id = utils.getLong();
+		List<JoinTable> orders = orderDAO.readIdTable(id);
+		for (JoinTable order : orders) {
+			LOGGER.info(order); 
+		}
+		getTotalOrder(id);
+		return orders;	
+		
 		
 	}
 

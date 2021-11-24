@@ -2,12 +2,15 @@ package com.qa.ims.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.DBUtils;
@@ -24,25 +27,25 @@ public class ItemDAOTest {
 	
 	@Test
 	public void testCreate() {
-		final Item created = new Item(2L, "beer", "very large", 5L);
+		final Item created = new Item(2L, "beer", "very large", 2L);
 		assertEquals(created, DAO.create(created));
 	}
 	
 	@Test
 	public void testReadAll() {
 		List<Item> expected = new ArrayList<>();
-		expected.add(new Item(1L, "beer", "very large", 5L));
+		expected.add(new Item(1L, "beer", "very large", 2L));
 		assertEquals(expected, DAO.readAll());
 	}
 	@Test
 	public void testRead() {
 		final long ID = 1L;
-		assertEquals(new Item(ID,"beer", "very large", 5L), DAO.read(ID));
+		assertEquals(new Item(ID,"beer", "very large", 2L), DAO.read(ID));
 	}
 	
 	@Test
 	public void testUpdate() {
-		final Item updated = new Item(1L, "cake", "huge", 5L);
+		final Item updated = new Item(1L, "cake", "huge", 2L);
 		assertEquals(updated, DAO.update(updated));
 
 	}
@@ -53,7 +56,7 @@ public class ItemDAOTest {
 	
 	@Test
 	public void testReadLatest() {
-		assertEquals(new Item(1L, "beer", "very large", 5L), DAO.readLatest());
+		assertEquals(new Item(1L, "beer", "very large", 2L), DAO.readLatest());
 	}
 	
 	@Test (expected=Exception.class) // How to get this to work?
@@ -70,7 +73,15 @@ public class ItemDAOTest {
 			assertEquals(e.getMessage(), exceptionMessage);
 		}
 	}
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+	
+	@Test (expected = Exception.class)
+    public void exceptionTesting3() {
+		DAO.read(20L);
+    }
+		}
 	
 	
 
-}
+
