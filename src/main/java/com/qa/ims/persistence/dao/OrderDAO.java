@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,8 +24,8 @@ public class OrderDAO implements Dao<Order> {
 	
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long id = resultSet.getLong("id");
-		Long customerId = resultSet.getLong("customerId");		
+		Long id = resultSet.getLong("id");	
+		Long customerId = resultSet.getLong("customerId");
 		return new Order(id, customerId);
 		
 	}
@@ -42,6 +44,9 @@ public class OrderDAO implements Dao<Order> {
 		
 	}
 	
+	
+	
+	
 
 	
 	public List<JoinTable> readAllOrders() {
@@ -53,10 +58,9 @@ public class OrderDAO implements Dao<Order> {
 						+ "INNER JOIN items ON items.id=order_items.itemId "
 						+ "INNER JOIN customers ON orders.customerId=customers.id; " );) {
 			List<JoinTable> orders = new ArrayList<>();
-			System.out.println(resultSet); // prints memory location
 			while (resultSet.next()) {
-				orders.add(modelFromResultSetJoin(resultSet)); // adds than is actually there!!
-				System.out.println("in while loop"); // only runs 3 times even when 6 in sql table
+				orders.add(modelFromResultSetJoin(resultSet)); 
+				
 			}
 			System.out.println(orders.size()); // prints 3
 			return orders;
@@ -191,6 +195,7 @@ public class OrderDAO implements Dao<Order> {
 	}
 
 	public List<JoinTable> readByCustomer(long id) {
+		int read = 1;
 		Long totalCost = 0L;
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(
@@ -205,7 +210,6 @@ public class OrderDAO implements Dao<Order> {
 			List<JoinTable> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(modelFromResultSetJoin(resultSet));
-				
 			} 
 			return orders;
 		} catch (SQLException e) {
@@ -267,6 +271,46 @@ public class OrderDAO implements Dao<Order> {
 		LOGGER.error(e.getMessage());
 	}
 	return totalCost;
+	}
+	
+	public String getOrderNums() {
+		String availableOrderNums = "Available order numbers:\n ";
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
+			List<Order> orders = new ArrayList<>();
+			Set<Long> longHash = new HashSet<>();
+			while (resultSet.next()) {
+				Long availId = modelFromResultSet(resultSet).getId();
+				longHash.add(availId);
+			}
+			availableOrderNums = availableOrderNums + longHash.toString();
+			return availableOrderNums;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return "";
+	}
+	
+	public String getCustomerNums() {
+		String availableCustNums = "Available customers with orders:";
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
+			List<Order> orders = new ArrayList<>();
+			Set<Long> longHash = new HashSet<>();
+			while (resultSet.next()) {
+				Long availId = modelFromResultSet(resultSet).getCustomerId();
+				longHash.add(availId);
+			}
+			availableCustNums = availableCustNums + longHash.toString();
+			return availableCustNums;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return "";
 	}
 }
 

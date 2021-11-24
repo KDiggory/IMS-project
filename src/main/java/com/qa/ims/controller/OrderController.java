@@ -103,49 +103,63 @@ public class OrderController implements CrudController<Order>{
 		} 
 	
 	public List<JoinTable> readByCustomer(){
+		int read = 1;
+		System.out.println( orderDAO.getCustomerNums() );
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the customer id of the orders you would like to find");
 		Long id = utils.getLong();
 		List<JoinTable> orders = orderDAO.readByCustomer(id);
 		// System.out.println("orders for customer: " + id); // could make it add the name here? - how to get this from OrderDAO? 
 		for (JoinTable order : orders) {
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			System.out.println("\t\tItem number: " + read);
 			LOGGER.info(order); 
+			read ++;
 		}
-		getTotal(id);
+		getTotal(id, read);
 		return orders;	
 	}
 	
-	public Long getTotal(Long id) {
+	public Long getTotal(Long id, int read) {
 		Long totalSum = orderDAO.totalCost(id);
 		System.out.println();
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		System.out.println("\nThe total sum for customer number " + id + ": £" + totalSum);
+		System.out.println("\nThe total sum for customer number " + id + ",\nFor " + (read-1) + " orders: £" + totalSum);
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return totalSum;
 		
 	}
 	
-	public Long getTotalOrder(Long id) {
+	public Long getTotalOrder(Long id, int read) {
 		Long totalSum = orderDAO.totalCostByOrder(id);
 		System.out.println();
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		System.out.println("\nThe total sum for order number " + id + ": £" + totalSum);
+		System.out.println("\nThe total sum for order number " + id + ",\nFor " + (read-1) + " orders: £" + totalSum);
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return totalSum;
 		
 	}
 	public List<JoinTable> readIdTable() {
+		int read = 1;
+		System.out.println(orderDAO.getOrderNums() );
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the order id you would like to find");
 		Long id = utils.getLong();
 		List<JoinTable> orders = orderDAO.readIdTable(id);
 		for (JoinTable order : orders) {
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			System.out.println("\t\tItem number: " + read);
 			LOGGER.info(order); 
+			read ++;
 		}
-		getTotalOrder(id);
+		getTotalOrder(id, read);
 		return orders;	
 		
 		
 	}
 	public void addToOrder() {
+		System.out.println("\navailable customers and corresponding order ids are: " + orderDAO.getOrderNums() );
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the order id you would like to add to");
 		Long id = utils.getLong();
 		OrderItemDAO orderItemDAO = new OrderItemDAO();
@@ -155,6 +169,8 @@ public class OrderController implements CrudController<Order>{
 
 
 	public void removeFromOrder() {
+		System.out.println("\navailable orders and corresponding customer ids are: " + orderDAO.getOrderNums() );
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the order id you would like to remove from");
 		Long id = utils.getLong();
 		OrderItemDAO orderItemDAO = new OrderItemDAO();
