@@ -118,7 +118,7 @@ public class OrderController implements CrudController<Order>{
 		}
 		getTotal(id, read);
 		return orders;	
-	}
+	} 
 	
 	public Long getTotal(Long id, int read) {
 		Long totalSum = orderDAO.totalCost(id);

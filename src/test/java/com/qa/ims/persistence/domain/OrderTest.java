@@ -55,7 +55,7 @@ public class OrderTest {
 	}
 	@Test
 	public void toStringTest() {
-		String expected = "Order [id=" + order.getId() + ", customerId=" + order.getCustomerId() + "]";
+		String expected = "Order id:" + order.getId() + ", Customer Id:" + order.getCustomerId() + "]";
 		assertEquals(expected, order.toString());
 	}
 

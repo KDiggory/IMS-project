@@ -52,6 +52,8 @@ public class OrderItemController implements CrudController<OrderItem> {
 		OrderController orderController = new OrderController(orderDAO, utils);
 		Order order = orderController.readLatest();
 		Long orderId = order.getId();
+		
+		LOGGER.info("The items available for adding to your order are: " +  itemDAO.getItemNums());
 
 		LOGGER.info("Please enter the Item id");
 		Long itemId = utils.getLong();
@@ -67,7 +69,7 @@ public class OrderItemController implements CrudController<OrderItem> {
 		//System.out.println(costTotal);
 		OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, itemId, itemName, numItems, costTotal)); // this is WAS the problem
 		LOGGER.info("Order Item created");
-		LOGGER.info(orderItemDAO.readLatest()); // add an option to add more items here - reference add to order method
+		//LOGGER.info(orderItemDAO.readLatest()); // add an option to add more items here - reference add to order method
 		LOGGER.info("Would you like to add another item to this order?");
 		String answer = utils.getString();
 		if (answer.contains("y")){
@@ -92,9 +94,9 @@ public class OrderItemController implements CrudController<OrderItem> {
 		Long itemId = utils.getLong();
 		LOGGER.info("Please enter the number of this item you would like");
 		Long numItems = utils.getLong();
-
+ 
 		Long custId = order.getCustomerId(); // this is not working because order is null!
-		Item item = itemDAO.read(itemId);
+		Item item = itemDAO.read(itemId); 
 		String itemName = item.getName();
 		Long cost = item.getCost();
 		//System.out.println(cost);
@@ -143,7 +145,7 @@ public class OrderItemController implements CrudController<OrderItem> {
 	}
 
 	
-	// Update order is not working - it changes the customer Id but not the rest. Currenly it is saying its an illegal operation on an empty result set even though there are things in there. Also need to set on cascase update if possible?
+	// Update order is not working - it changes the customer Id but not the rest. Currently it is saying its an illegal operation on an empty result set even though there are things in there. Also need to set on cascase update if possible?
 	@Override
 	public int delete() { // this isn't required for order items as you delete from the order not the order item.
 		return 0;

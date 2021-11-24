@@ -29,6 +29,13 @@ public class OrderItemTest {
 	}
 	
 	@Test
+	public void constructorTest3() {
+		OrderItem test1 = new OrderItem(1L,1L,1L);
+		OrderItem test2 = new OrderItem(1L,1L,1L);
+		assertEquals(test2, test1);
+	}
+	
+	@Test
 	public void getIdTest() { // not working yet
 		orderItem.setId(1L); // have to set the id first because constructor done without 
 		Long expected = orderItem.getId();
@@ -114,6 +121,7 @@ public class OrderItemTest {
 		String expected = "OrderItem [id=" + orderItem.getId() + ", orderId=" + orderItem.getOrderId() + 
 				", itemId=" + orderItem.getItemId() + ", itemName=" + orderItem.getItemName()
 				+ ", numItems=" + orderItem.getNumItems() + ", cost=" + orderItem.getCost() + "]";
+		assertEquals(expected, orderItem.toString());
 	}
 
 }
