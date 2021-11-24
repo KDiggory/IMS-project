@@ -86,7 +86,7 @@ public class ItemDAO implements Dao<Item> {
 	public Item update(Item item) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("UPDATE items SET name = ?, size = ?, cost = ? WHERE id = ?");) {
+						.prepareStatement("UPDATE items SET itemName = ?, size = ?, cost = ? WHERE id = ?");) {
 			statement.setString(1, item.getName());
 			statement.setString(2, item.getSize());
 			statement.setDouble(3, item.getCost());			
@@ -145,7 +145,34 @@ public class ItemDAO implements Dao<Item> {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
+		return ""; 
+	}
+
+	public String getItemNumsFromOrder(Long id) {
+		String availableItemNums = "Available Items:\n";
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("SELECT items.id, itemName FROM items "
+						+ "JOIN order_items ON items.id=order_items.itemId "
+						+ "WHERE order_items.orderId=?;");) {
+			statement.setLong(1, id);
+			ResultSet resultSet = statement.executeQuery(); 
+			List<Order> orders = new ArrayList<>();
+			HashMap<String, Long> hashMap = new HashMap<>();
+			while (resultSet.next()) {
+				Long id2 = modelFromResultSet(resultSet).getId();
+				String name = modelFromResultSet(resultSet).getName();
+				
+				hashMap.put(name, id2);
+			}
+			availableItemNums = availableItemNums + hashMap.toString();
+			return availableItemNums;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return "";
+	
 	}
 
 }
+

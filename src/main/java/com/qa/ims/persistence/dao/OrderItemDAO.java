@@ -42,7 +42,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 			}
 			return orderItems;
 		} catch (SQLException e) {
-			LOGGER.debug(e);
+			LOGGER.debug(e); 
 			LOGGER.error(e.getMessage());
 		}
 		return new ArrayList<>();
@@ -154,10 +154,11 @@ public class OrderItemDAO implements Dao<OrderItem> {
 	
 	public int deleteFromOrder(long id, long itemId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE orderId = ? AND itemId=?");) {
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE order_items.orderId = ? AND order_items.itemId=?");) {
 			statement.setLong(1, id);
 			statement.setLong(2,  itemId);
 			return statement.executeUpdate();
+			
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());

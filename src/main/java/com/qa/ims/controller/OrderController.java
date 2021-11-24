@@ -2,8 +2,10 @@ package com.qa.ims.controller;
 
 import java.util.List;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 
 import com.qa.ims.persistence.dao.CustomerDAO;
 import com.qa.ims.persistence.dao.ItemDAO;
@@ -114,7 +116,7 @@ public class OrderController implements CrudController<Order>{
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			System.out.println("\t\tItem number: " + read);
 			LOGGER.info(order); 
-			read ++;
+			read ++; 
 		}
 		getTotal(id, read);
 		return orders;	
@@ -152,13 +154,13 @@ public class OrderController implements CrudController<Order>{
 			LOGGER.info(order); 
 			read ++;
 		}
-		getTotalOrder(id, read);
+		getTotalOrder(id, read); 
 		return orders;	
 		
 		
 	}
 	public void addToOrder() {
-		System.out.println("\navailable customers and corresponding order ids are: " + orderDAO.getOrderNums() );
+		System.out.println(orderDAO.getOrderNums() );
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the order id you would like to add to");
 		Long id = utils.getLong();
@@ -169,7 +171,7 @@ public class OrderController implements CrudController<Order>{
 
 
 	public void removeFromOrder() {
-		System.out.println("\navailable orders and corresponding customer ids are: " + orderDAO.getOrderNums() );
+		System.out.println(orderDAO.getOrderNums() );
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the order id you would like to remove from");
 		Long id = utils.getLong();

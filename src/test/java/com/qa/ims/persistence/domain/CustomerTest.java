@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,11 +15,11 @@ public class CustomerTest {
 	public void setup() {
 	customer = new Customer("Katie", "Diggory");
 	}
-//what is this?
-//	@Test
-//	public void testEquals() {
-//		EqualsVerifier.simple().forClass(Customer.class).verify();
-//	}
+
+	@Test
+	public void testEquals() {
+		EqualsVerifier.simple().forClass(Customer.class).verify();
+	}
 	
 	@Test
 	public void constructorTest() {
@@ -83,6 +84,13 @@ public class CustomerTest {
 		assertEquals(expected, customer.toString());
 	}
 	
+	@Test
+	public void EqualsTest() {
+		Customer cust1 = new Customer("Katie", "Diggory");
+		Customer cust2 = new Customer("Katie", "Diggory");
+		assertTrue(cust1.equals(cust2) && cust2.equals(cust1));
+		assertTrue(cust1.hashCode()== cust2.hashCode());
+	}
 	
 
 }

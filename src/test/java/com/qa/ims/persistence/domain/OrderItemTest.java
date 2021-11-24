@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -122,6 +123,14 @@ public class OrderItemTest {
 				", itemId=" + orderItem.getItemId() + ", itemName=" + orderItem.getItemName()
 				+ ", numItems=" + orderItem.getNumItems() + ", cost=" + orderItem.getCost() + "]";
 		assertEquals(expected, orderItem.toString());
+	}
+	
+	@Test
+	public void EqualsTest() {
+		OrderItem test1 = new OrderItem(1L,1L,1L);
+		OrderItem test2 = new OrderItem(1L,1L,1L);
+		assertTrue(test1.equals(test2) && test2.equals(test1));
+		assertTrue(test1.hashCode()== test2.hashCode());
 	}
 
 }

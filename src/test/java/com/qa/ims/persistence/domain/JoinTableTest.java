@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -131,6 +132,14 @@ public class JoinTableTest {
 		Long expected = joinTable.getTotalCost();
 		Long test = 5L;
 		assertEquals(expected, test);
+	}
+	
+	@Test
+	public void EqualsTest() {
+		JoinTable test1 = new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L);
+		JoinTable test2 = new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L);
+		assertTrue(test1.equals(test2) && test2.equals(test1));
+		assertTrue(test1.hashCode()== test2.hashCode());
 	}
 	
 	

@@ -56,4 +56,10 @@ public class CustomerDAOTest {
 	public void testDelete() {
 		assertEquals(1, DAO.delete(1));
 	}
+	
+	@Test
+	public void testReadAllIds() {
+		String expected = "Available customer ids:\n" + "[1]";
+		assertEquals(expected, DAO.readAllIds());
+	}
 }

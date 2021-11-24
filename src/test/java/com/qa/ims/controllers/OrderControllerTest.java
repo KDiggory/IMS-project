@@ -13,16 +13,15 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.qa.ims.controller.OrderController;
+import com.qa.ims.controller.OrderItemController;
 import com.qa.ims.persistence.dao.OrderDAO;
-import com.qa.ims.persistence.domain.Customer;
-import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.Utils;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderControllerTest {
 	
-	@Mock
+	@Mock 
 	private Utils utils;
 
 	@Mock
@@ -30,6 +29,9 @@ public class OrderControllerTest {
 	
 	@InjectMocks
 	private OrderController controller;
+	
+	@InjectMocks
+	private OrderItemController oIcontroller;
 	
 	@Test
 	public void testCreate() { // coming up null like the one for Item controller
@@ -101,6 +103,7 @@ public class OrderControllerTest {
 	@Test
 	public void testReadAllOrders() {
 		
+		
 	}
 	@Test
 	public void testreadByCustomer(){
@@ -108,6 +111,27 @@ public class OrderControllerTest {
 	}
 	@Test
 	public void testgetTotal() {
+		
+	}
+	
+	@Test
+	public void testReadByIdInput() {
+		
+	}
+	@Test
+	public void testGetTotalOrder() {
+		
+	}
+	@Test
+	public void testReadIdTable() {
+		
+	}
+	@Test
+	public void testAddToOrder() {
+		
+	}
+	@Test
+	public void testRemoveFromOrder() {
 		
 	}
 	

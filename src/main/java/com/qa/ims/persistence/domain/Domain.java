@@ -14,7 +14,7 @@ public enum Domain {
 
 	private String description;
 
-	private Domain(String description) {
+	private Domain(String description) { 
 		this.description = description;
 	}
 

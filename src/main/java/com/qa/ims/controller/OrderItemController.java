@@ -87,24 +87,20 @@ public class OrderItemController implements CrudController<OrderItem> {
 		OrderItemDAO orderItemDAO = new OrderItemDAO();
 
 		OrderController orderController = new OrderController(orderDAO, utils);
-		JoinTable order = orderController.readByIdInput(id); // this is coming back as null
-		System.out.println(order);
-		//Order order = orderDAO.read(id);
+		JoinTable order = orderController.readByIdInput(id); 
+		LOGGER.info(itemDAO.getItemNums());
 		LOGGER.info("Please enter the Item id");
 		Long itemId = utils.getLong();
 		LOGGER.info("Please enter the number of this item you would like");
 		Long numItems = utils.getLong();
- 
 		Long custId = order.getCustomerId(); // this is not working because order is null!
 		Item item = itemDAO.read(itemId); 
 		String itemName = item.getName();
 		Long cost = item.getCost();
-		//System.out.println(cost);
 		Long costTotal = cost * numItems;
-		//System.out.println(costTotal);
 		OrderItem orderItem = orderItemDAO.create(new OrderItem(id, itemId, itemName, numItems, costTotal)); // this is WAS the problem
 		LOGGER.info("Order Item created");
-		LOGGER.info(orderItemDAO.readLatest()); // add an option to add more items here - reference add to order method
+		
 		LOGGER.info("Would you like to add another item to this order?");
 		String answer = utils.getString();
 		if (answer.contains("y")){
@@ -112,7 +108,7 @@ public class OrderItemController implements CrudController<OrderItem> {
 		} else if (answer.contains("n")) {
 			LOGGER.info("You can come back and do this later if you change your mind");
 		}
-		LOGGER.info(orderDAO.readIdTable(id)); // add an option to add more items here - reference add to order method
+		
 		
 		return null;
 		//add another item to the order - create but dont use the read latest id for order - input the order id
@@ -120,7 +116,9 @@ public class OrderItemController implements CrudController<OrderItem> {
 	}
 	
 	public OrderItem removeFromOrder(Long id) {
-		LOGGER.info("Please enter the id of this item you would like to remove");
+		ItemDAO itemDAO = new ItemDAO(); 
+		LOGGER.info(itemDAO.getItemNumsFromOrder(id)); //issue is here - column name not found?
+		LOGGER.info("Please enter the id of the item you would like to remove");
 		Long itemId = utils.getLong();
 		orderItemDAO.deleteFromOrder(id,itemId);
 		
@@ -132,7 +130,7 @@ public class OrderItemController implements CrudController<OrderItem> {
 		CustomerDAO customerDAO = new CustomerDAO();
 		ItemDAO itemDAO = new ItemDAO();
 		OrderItemDAO orderItemDAO = new OrderItemDAO();
-
+		LOGGER.info(itemDAO.getItemNums());
 		OrderController orderController = new OrderController(orderDAO, utils);
 		LOGGER.info("Please enter updated item id");
 		Long itemId = utils.getLong();

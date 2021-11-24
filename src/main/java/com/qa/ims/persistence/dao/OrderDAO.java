@@ -115,7 +115,7 @@ public class OrderDAO implements Dao<Order> {
 			ResultSet resultSet = statement.executeQuery();
 			List<JoinTable> orders = new ArrayList<>();
 			while (resultSet.next()) {
-				orders.add(modelFromResultSetJoin(resultSet));
+				orders.add(modelFromResultSetJoin(resultSet)); 
 			} return orders;
 		} catch (Exception e) {
 			

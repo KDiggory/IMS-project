@@ -1,18 +1,15 @@
 package com.qa.ims.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.qa.ims.persistence.domain.Item;
+import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.DBUtils;
 
 public class ItemDAOTest {
@@ -63,6 +60,13 @@ public class ItemDAOTest {
 	public void testGetItemNums() {
 		String expected = "Available Items:\n" + "{beer=1}";
 		assertEquals(expected, DAO.getItemNums());
+	}
+	
+	@Test
+	public void testGetItemNumsFromOrder() { // this only works when you dont ask for anything!
+		Order test1 = new Order(1L);			// maybe because its a test and so there is nothing there?
+		String expected = "" ;
+		assertEquals(expected, DAO.getItemNumsFromOrder(1L));
 	}
 		
 	

@@ -19,7 +19,7 @@ import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.Utils;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ItemControllerTest {
+public class ItemControllerTest { 
 	
 	@Mock
 	private Utils utils;
@@ -31,7 +31,7 @@ public class ItemControllerTest {
 	private ItemController controller;
 	
 	@Test
-	public void testCreate() { // not working
+	public void testCreate() { 
 		final String name = "pie";
 		final String size = "large";
 		final Long cost = 5L;
@@ -61,7 +61,7 @@ public class ItemControllerTest {
 	}
 	
 	@Test
-	public void testUpdate() { // not working
+	public void testUpdate() { 
 		Item updated = new Item(1L, "cake", "cupcake", 1L);
 
 		Mockito.when(this.utils.getLong()).thenReturn(1L);
@@ -70,7 +70,7 @@ public class ItemControllerTest {
 
 		assertEquals(updated, this.controller.update());
 
-		Mockito.verify(this.utils, Mockito.times(1)).getLong();
+		Mockito.verify(this.utils, Mockito.times(2)).getLong();
 		Mockito.verify(this.utils, Mockito.times(2)).getString();
 		Mockito.verify(this.DAO, Mockito.times(1)).update(updated);
 	}
