@@ -115,7 +115,7 @@ public class OrderDAO implements Dao<Order> {
 			ResultSet resultSet = statement.executeQuery();
 			List<JoinTable> orders = new ArrayList<>();
 			while (resultSet.next()) {
-				orders.add(modelFromResultSetJoin(resultSet));
+				orders.add(modelFromResultSetJoin(resultSet)); 
 			} return orders;
 		} catch (Exception e) {
 			
@@ -140,21 +140,21 @@ public class OrderDAO implements Dao<Order> {
 		return null;
 	}
 	
-	//needs changing
+	//needs changing - dont need this for order
 	@Override
 	public Order update(Order order) {
-		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection
-						.prepareStatement("UPDATE orders SET customerId=? WHERE id = ?");) {
-			statement.setLong(1, order.getCustomerId());
-			statement.setLong(2, order.getId());
-			statement.executeUpdate();
-			
-			return readLatest();
-		} catch (Exception e) {
-			LOGGER.debug(e);
-			LOGGER.error(e.getMessage());
-		}
+//		try (Connection connection = DBUtils.getInstance().getConnection();
+//				PreparedStatement statement = connection
+//						.prepareStatement("UPDATE orders SET customerId=? WHERE id = ?");) {
+//			statement.setLong(1, order.getCustomerId());
+//			statement.setLong(2, order.getId());
+//			statement.executeUpdate();
+//			
+//			return readLatest();
+//		} catch (Exception e) {
+//			LOGGER.debug(e);
+//			LOGGER.error(e.getMessage());
+//		}
 		return null;
 	}
 
@@ -174,7 +174,7 @@ public class OrderDAO implements Dao<Order> {
 	}
 
 	
-	//needs changing
+	//needs changing?
 	public Order readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
@@ -188,9 +188,8 @@ public class OrderDAO implements Dao<Order> {
 		return null;
 	}
 
-	@Override
+	@Override // dont need this, done my own
 	public List<Order> readAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -312,6 +311,7 @@ public class OrderDAO implements Dao<Order> {
 		}
 		return "";
 	}
+	
 }
 
 	

@@ -1,5 +1,7 @@
 package com.qa.ims.persistence.domain;
 
+import java.util.Objects;
+
 public class JoinTable {
 	
 	
@@ -97,6 +99,26 @@ public class JoinTable {
 
 	public void setTotalCost(Long totalCost) {
 		this.totalCost = totalCost;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(customerId, customerSurname, itemCost, itemId, itemName, numItems, orderId, totalCost);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JoinTable other = (JoinTable) obj;
+		return Objects.equals(customerId, other.customerId) && Objects.equals(customerSurname, other.customerSurname)
+				&& Objects.equals(itemCost, other.itemCost) && Objects.equals(itemId, other.itemId)
+				&& Objects.equals(itemName, other.itemName) && Objects.equals(numItems, other.numItems)
+				&& Objects.equals(orderId, other.orderId) && Objects.equals(totalCost, other.totalCost);
 	}
 
 	

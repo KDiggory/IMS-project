@@ -58,6 +58,8 @@ public class CustomerController implements CrudController<Customer> {
 	 */
 	@Override
 	public Customer update() {
+		LOGGER.info( customerDAO.readAllIds() );
+		LOGGER.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the id of the customer you would like to update");
 		Long id = utils.getLong();
 		LOGGER.info("Please enter a first name");
@@ -76,6 +78,8 @@ public class CustomerController implements CrudController<Customer> {
 	 */
 	@Override
 	public int delete() {
+		LOGGER.info( customerDAO.readAllIds() );
+		LOGGER.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the id of the customer you would like to delete");
 		Long id = utils.getLong();
 		return customerDAO.delete(id);
@@ -83,6 +87,8 @@ public class CustomerController implements CrudController<Customer> {
 
 	@Override
 	public Customer readById() {
+		LOGGER.info( customerDAO.readAllIds() );
+		LOGGER.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the id of the customer you would like to find");
 		Long id = utils.getLong();		
 		Customer customer = customerDAO.read(id);

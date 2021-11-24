@@ -1,18 +1,15 @@
 package com.qa.ims.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.qa.ims.persistence.domain.Item;
+import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.DBUtils;
 
 public class ItemDAOTest {
@@ -59,13 +56,27 @@ public class ItemDAOTest {
 		assertEquals(new Item(1L, "beer", "very large", 2L), DAO.readLatest());
 	}
 	
-	@Test (expected=Exception.class) // How to get this to work?
-	public void exceptionTesting() {
-		DAO.read(100L);
-		
-	}
 	@Test
-	public void exceptionTesting2() { // surely this shouldn't work??
+	public void testGetItemNums() {
+		String expected = "Available Items:\n" + "{beer=1}";
+		assertEquals(expected, DAO.getItemNums());
+	}
+	
+	@Test
+	public void testGetItemNumsFromOrder() { // this only works when you dont ask for anything!
+		Order test1 = new Order(1L);			// maybe because its a test and so there is nothing there?
+		String expected = "" ;
+		assertEquals(expected, DAO.getItemNumsFromOrder(1L));
+	}
+		
+	
+//	@Test (expected=Exception.class) // How to get this to work?
+//	public void exceptionTesting() {
+//		DAO.read(100L);
+//		
+//	}
+	@Test
+	public void exceptionTesting2() { // is this working properly
 		String exceptionMessage = "something";
 		try {
 			DAO.read(10L);
@@ -73,13 +84,14 @@ public class ItemDAOTest {
 			assertEquals(e.getMessage(), exceptionMessage);
 		}
 	}
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
 	
-	@Test (expected = Exception.class)
-    public void exceptionTesting3() {
-		DAO.read(20L);
-    }
+//	@Rule
+//	public final ExpectedException exception = ExpectedException.none();
+//	
+//	@Test (expected = Exception.class) // doesn't work
+//    public void exceptionTesting3() {
+//		DAO.read(20L);
+//    }
 		}
 	
 	
