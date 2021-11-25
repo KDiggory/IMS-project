@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderItemDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ims</a> &gt; <a href="index.source.html" class="el_package">com.qa.ims.persistence.dao</a> &gt; <span class="el_source">OrderItemDAO.java</span></div><h1>OrderItemDAO.java</h1><pre class="source lang-java linenums">package com.qa.ims.persistence.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.qa.ims.persistence.domain.JoinTable;
+import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.persistence.domain.OrderItem;
+import com.qa.ims.utils.DBUtils;
+
+<span class="fc" id="L19">public class OrderItemDAO implements Dao&lt;OrderItem&gt; {</span>
+	
+<span class="fc" id="L21">	public static final Logger LOGGER = LogManager.getLogger();</span>
+	
+	@Override
+	public OrderItem modelFromResultSet(ResultSet resultSet) throws SQLException {
+<span class="fc" id="L25">		Long id = resultSet.getLong(&quot;id&quot;);</span>
+<span class="fc" id="L26">		Long orderId = resultSet.getLong(&quot;orderId&quot;);</span>
+<span class="fc" id="L27">		Long itemId = resultSet.getLong(&quot;itemId&quot;);</span>
+<span class="fc" id="L28">		String itemName = resultSet.getString(&quot;itemName&quot;);</span>
+<span class="fc" id="L29">		Long numItems = resultSet.getLong(&quot;numItems&quot;);</span>
+<span class="fc" id="L30">		Long cost = resultSet.getLong(&quot;cost&quot;);</span>
+<span class="fc" id="L31">		return new OrderItem (orderId, itemId, itemName, numItems, cost);</span>
+	}
+
+	@Override
+	public List&lt;OrderItem&gt; readAll() {
+<span class="fc" id="L36">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
+<span class="fc" id="L37">				Statement statement = connection.createStatement();</span>
+<span class="fc" id="L38">				ResultSet resultSet = statement.executeQuery(&quot;SELECT * FROM order_items&quot;);) {</span>
+<span class="fc" id="L39">			List&lt;OrderItem&gt; orderItems = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">			while (resultSet.next()) {</span>
+<span class="fc" id="L41">				orderItems.add(modelFromResultSet(resultSet));</span>
+			}
+<span class="fc" id="L43">			return orderItems;</span>
+<span class="nc" id="L44">		} catch (SQLException e) {</span>
+<span class="nc" id="L45">			LOGGER.debug(e); </span>
+<span class="nc" id="L46">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="nc" id="L48">		return new ArrayList&lt;&gt;();</span>
+	}
+	
+	 
+//	public List&lt;JoinTable&gt; readAllJoin() {
+//		try (Connection connection = DBUtils.getInstance().getConnection();
+//				Statement statement = connection.createStatement();
+//				ResultSet resultSet = statement.executeQuery(&quot;SELECT * FROM order_items&quot;);) {
+//			List&lt;OrderItem&gt; orderItems = new ArrayList&lt;&gt;();
+//			while (resultSet.next()) {
+//				orderItems.add(modelFromResultSet(resultSet));
+//			}
+//			return orderItems;
+//		} catch (SQLException e) {
+//			LOGGER.debug(e);
+//			LOGGER.error(e.getMessage());
+//		}
+//		return new ArrayList&lt;&gt;();
+//	}
+	
+	// wont actually be used
+	@Override
+	public OrderItem read(Long id) {
+<span class="fc" id="L71">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
+<span class="fc" id="L72">				PreparedStatement statement = connection.prepareStatement(&quot;SELECT * FROM order_items WHERE id = ?&quot;);) {</span>
+<span class="fc" id="L73">			statement.setLong(1, id);</span>
+<span class="fc" id="L74">			try (ResultSet resultSet = statement.executeQuery();) {</span>
+<span class="fc" id="L75">				resultSet.next();</span>
+<span class="fc" id="L76">				return modelFromResultSet(resultSet);</span>
+			}
+<span class="nc" id="L78">		} catch (Exception e) {</span>
+<span class="nc" id="L79">			LOGGER.debug(e);</span>
+<span class="nc" id="L80">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="nc" id="L82">		return null;</span>
+	}
+
+	@Override
+	public OrderItem create(OrderItem orderItem) {
+<span class="fc" id="L87">		OrderDAO order = new OrderDAO();</span>
+<span class="fc" id="L88">		Order latest = order.readLatest();</span>
+		
+<span class="fc" id="L90">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
+<span class="fc" id="L91">				PreparedStatement statement = connection</span>
+<span class="fc" id="L92">						.prepareStatement(&quot;INSERT INTO order_items (orderId, itemId, itemName, cost, numItems)&quot;</span>
+								+ &quot;VALUES ( ?,?,?,?,?)&quot;);) {
+<span class="fc" id="L94">			statement.setLong(1,  latest.getId()); </span>
+<span class="fc" id="L95">			statement.setLong(2, orderItem.getItemId());</span>
+<span class="fc" id="L96">			statement.setString(3,  orderItem.getItemName());</span>
+<span class="fc" id="L97">			statement.setLong(4,  orderItem.getCost());</span>
+<span class="fc" id="L98">			statement.setLong(5,  orderItem.getNumItems());</span>
+<span class="fc" id="L99">			statement.executeUpdate();</span>
+<span class="fc" id="L100">			return readLatest();</span>
+<span class="nc" id="L101">		} catch (Exception e) {</span>
+<span class="nc" id="L102">			LOGGER.debug(e); </span>
+<span class="nc" id="L103">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="nc" id="L105">		return null;</span>
+	}
+
+	public OrderItem readLatest() {
+<span class="fc" id="L109">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
+<span class="fc" id="L110">				Statement statement = connection.createStatement();</span>
+<span class="fc" id="L111">				ResultSet resultSet = statement.executeQuery(&quot;SELECT * FROM order_items ORDER BY id DESC LIMIT 1&quot;);) {</span>
+<span class="fc" id="L112">			resultSet.next();</span>
+<span class="fc" id="L113">			return modelFromResultSet(resultSet);</span>
+<span class="nc" id="L114">		} catch (Exception e) {</span>
+<span class="nc" id="L115">			LOGGER.debug(e);</span>
+<span class="nc" id="L116">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="nc" id="L118">		return null;</span>
+	}
+
+	@Override // made my own for this one 
+	public OrderItem update(OrderItem orderItem) {
+<span class="nc" id="L123">			return null;</span>
+		}
+
+	@Override
+	public int delete(long id) {
+<span class="fc" id="L128">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
+<span class="fc" id="L129">				PreparedStatement statement = connection.prepareStatement(&quot;DELETE FROM order_items WHERE id = ?&quot;);) {</span>
+<span class="fc" id="L130">			statement.setLong(1, id);</span>
+<span class="fc" id="L131">			return statement.executeUpdate();</span>
+<span class="nc" id="L132">		} catch (Exception e) {</span>
+<span class="nc" id="L133">			LOGGER.debug(e);</span>
+<span class="nc" id="L134">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="nc" id="L136">		return 0;</span>
+	}
+	
+	public void deleteFromOrder(long id, long itemId) {
+<span class="nc" id="L140">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
+<span class="nc" id="L141">				PreparedStatement statement = connection.prepareStatement(&quot;DELETE FROM order_items WHERE orderId = ? AND itemId=?&quot;);) {</span>
+<span class="nc" id="L142">			statement.setLong(1, id);										// this works in MySQL workbench</span>
+<span class="nc" id="L143">			statement.setLong(2,  itemId);</span>
+<span class="nc" id="L144">			statement.executeUpdate();</span>
+<span class="nc" id="L145">			System.out.println(&quot;Item deleted&quot;); // getting here - yes // but it then doesnt go anywhere else</span>
+			
+<span class="nc" id="L147">		} catch (Exception e) {</span>
+<span class="nc" id="L148">			LOGGER.debug(e);</span>
+<span class="nc" id="L149">			LOGGER.error(e.getMessage());</span>
+<span class="nc" id="L150">		}</span>
+		
+<span class="nc" id="L152">	}</span>
+	// this needs to delete from order if the orderitems is null!
+	
+
+	public OrderItem updateOrder(OrderItem orderItem) {
+<span class="fc" id="L157">		Long id = orderItem.getOrderId();</span>
+<span class="fc" id="L158">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
+<span class="fc" id="L159">				PreparedStatement statement = connection</span>
+<span class="fc" id="L160">						.prepareStatement((&quot;UPDATE order_items SET itemId = ?, numItems = ? WHERE orderId = &quot;+ id));){</span>
+<span class="fc" id="L161">			statement.setLong(1, orderItem.getItemId());</span>
+<span class="fc" id="L162">			statement.setLong(2,  orderItem.getNumItems());</span>
+			//statement.setLong(3,  orderItem.getOrderId());
+<span class="fc" id="L164">			statement.executeUpdate();</span>
+<span class="fc" id="L165">			return read(orderItem.getOrderId());</span>
+<span class="nc" id="L166">		} catch (Exception e) {</span>
+<span class="nc" id="L167">			LOGGER.debug(e);</span>
+<span class="nc" id="L168">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="nc" id="L170">		return null;</span>
+	}
+	
+	public boolean ifExists(Long id) { // a problem here that means the whole order is getting deleted even if there is still something in it 
+<span class="fc" id="L174">		boolean bool = false;</span>
+<span class="fc" id="L175">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
+<span class="fc" id="L176">				PreparedStatement statement = connection</span>
+<span class="fc" id="L177">						.prepareStatement(&quot;SELECT EXISTS(SELECT * FROM order_items WHERE orderId=?)&quot;);) {</span>
+<span class="fc" id="L178">		 statement.setLong(1, id);</span>
+<span class="fc" id="L179">		 ResultSet num = statement.executeQuery(); // this is the issue - need to get an int out not a result set</span>
+		// System.out.println(num.getFetchSize()); // its printing 0 here! but should be 1 as there is still something in there 
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">		 if (num.next()) {</span>
+<span class="fc" id="L182">			 bool = true;</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">		 }else if (!num.next()) {</span>
+<span class="nc" id="L184">			 bool = false;</span>
+//		 if (num.getFetchSize() &gt; 0 ) {  This didn't work so I did what is currently working. 
+//			 bool = true;
+//			 System.out.println(&quot;TRUE&quot;);
+//		 } else if (num.getFetchSize() == 0) {
+//			 bool = false;
+//			 System.out.println(&quot;FALSE&quot;);
+			 }
+<span class="nc" id="L192">			 } catch (Exception e) {</span>
+<span class="nc" id="L193">				 LOGGER.debug(e);</span>
+<span class="nc" id="L194">					LOGGER.error(e.getMessage());</span>
+<span class="fc" id="L195">			 }</span>
+<span class="fc" id="L196">			 return bool;		</span>
+	}
+	
+	
+}
+
+
+
+
+	
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
