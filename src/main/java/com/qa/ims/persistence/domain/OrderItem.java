@@ -14,8 +14,11 @@ public class OrderItem {
 	public OrderItem() {
 		super();
 	}
-	
+
+	public OrderItem(Long id, Long orderId, Long itemId, String itemName, Long numItems, Long cost) {
+
 	public OrderItem(Long id, Long orderId, Long itemId, String itemName, Long cost, Long numItems) {
+
 		super();
 		this.id = id;
 		this.orderId = orderId;
@@ -32,6 +35,8 @@ public class OrderItem {
 		this.itemName = itemName;
 		this.numItems = numItems;
 		this.cost = cost;
+
+
 	}
 	
 	public OrderItem(Long orderId, Long itemId, Long numItems) {
@@ -39,6 +44,7 @@ public class OrderItem {
 		this.orderId = orderId;
 		this.itemId = itemId;
 		this.numItems = numItems;
+
 	}
 
 	public Long getId() {
