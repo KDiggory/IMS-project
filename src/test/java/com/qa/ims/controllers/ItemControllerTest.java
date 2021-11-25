@@ -18,7 +18,7 @@ import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.Utils;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.class) // lets junit know you want to use mockito
 public class ItemControllerTest { 
 	
 	@Mock
@@ -29,6 +29,8 @@ public class ItemControllerTest {
 
 	@InjectMocks
 	private ItemController controller;
+	
+	
 	
 	@Test
 	public void testCreate() { 

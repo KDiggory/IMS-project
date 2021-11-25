@@ -53,7 +53,7 @@ public class OrderItemController implements CrudController<OrderItem> {
 		Order order = orderController.readLatest();
 		Long orderId = order.getId();
 		
-		LOGGER.info("The items available for adding to your order are: " +  itemDAO.getItemNums());
+		LOGGER.info(itemDAO.getItemNums());  // prints out the item numbers available
 
 		LOGGER.info("Please enter the Item id");
 		Long itemId = utils.getLong();

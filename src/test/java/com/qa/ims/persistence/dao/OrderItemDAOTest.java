@@ -25,7 +25,7 @@ private final OrderItemDAO DAO = new OrderItemDAO();
 	@Test
 	public void testCreate() {
 		final OrderItem created = new OrderItem(1L, 1L, "beer", 2L, 2L); // coming up as order 60 in the one tested against - increments each time you do it?!
-		assertEquals(created, DAO.create(created));
+		assertEquals(created, DAO.create(created));							// was because on deleting tables in sql schema was put wrong, moved those with most fk to top and it was sorted
 	}
 	
 	@Test

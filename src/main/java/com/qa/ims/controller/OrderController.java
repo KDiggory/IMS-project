@@ -54,6 +54,8 @@ public class OrderController implements CrudController<Order>{
 
 	@Override
 	public Order create() {
+		System.out.println(orderDAO.getAllCustomerNums() );
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the customer id");
 		Long customerId = utils.getLong();
 		Order order = orderDAO.create(new Order(customerId));
@@ -65,20 +67,22 @@ public class OrderController implements CrudController<Order>{
 
 	@Override
 	public int delete() {
+		System.out.println(orderDAO.getOrderNums() );
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the id of the order you would like to delete");
 		Long id = utils.getLong();
 		return orderDAO.delete(id); 
 	}
 
-	@Override
+	@Override // this isnt used for order
 	public Order update() {
-		LOGGER.info("Please enter the id of the order you would like to update");
-		Long id = utils.getLong();
-		LOGGER.info("Please enter updated customer id");
-		Long custId = utils.getLong();
-		Order order = orderDAO.update(new Order(id, custId));
-		OrderItemController orderItemController = new OrderItemController(orderItemDAO, utils);
-		orderItemController.updateOrder(order); // problem here 
+//		LOGGER.info("Please enter the id of the order you would like to update");
+//		Long id = utils.getLong();
+//		LOGGER.info("Please enter updated customer id");
+//		Long custId = utils.getLong();
+//		Order order = orderDAO.update(new Order(id, custId));
+//		OrderItemController orderItemController = new OrderItemController(orderItemDAO, utils);
+//		orderItemController.updateOrder(order); // problem here 
 		return null;
 	}
 	
