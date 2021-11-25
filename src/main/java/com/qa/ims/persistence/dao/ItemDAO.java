@@ -145,13 +145,13 @@ public class ItemDAO implements Dao<Item> {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return ""; 
+		return "";  
 	}
 
-	public String getItemNumsFromOrder(Long id) {
+	public String getItemNumsFromOrder(Long id) { // THIS is the column name not found problem! This is fixed
 		String availableItemNums = "Available Items:\n";
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT items.id, itemName FROM items "
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM items "
 						+ "JOIN order_items ON items.id=order_items.itemId "
 						+ "WHERE order_items.orderId=?;");) {
 			statement.setLong(1, id);

@@ -54,8 +54,6 @@ public class OrderController implements CrudController<Order>{
 
 	@Override
 	public Order create() {
-		System.out.println(orderDAO.getAllCustomerNums() );
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the customer id");
 		Long customerId = utils.getLong();
 		Order order = orderDAO.create(new Order(customerId));
@@ -67,15 +65,20 @@ public class OrderController implements CrudController<Order>{
 
 	@Override
 	public int delete() {
-		System.out.println(orderDAO.getOrderNums() );
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the id of the order you would like to delete");
 		Long id = utils.getLong();
 		return orderDAO.delete(id); 
 	}
+	
+	public int deleteNoInput(Long id) {
+		OrderDAO orderDAO = new OrderDAO();
+		return orderDAO.delete(id); 
+	}
+	
+	
 
-	@Override // this isnt used for order
-	public Order update() {
+	@Override
+	public Order update() { // dont use this
 //		LOGGER.info("Please enter the id of the order you would like to update");
 //		Long id = utils.getLong();
 //		LOGGER.info("Please enter updated customer id");
@@ -174,7 +177,7 @@ public class OrderController implements CrudController<Order>{
 	}
 
 
-	public void removeFromOrder() {
+	public void removeFromOrder() { // This is where column name not found message is coming from?
 		System.out.println(orderDAO.getOrderNums() );
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LOGGER.info("Please enter the order id you would like to remove from");

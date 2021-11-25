@@ -273,14 +273,14 @@ public class OrderDAO implements Dao<Order> {
 	return totalCost;
 	}
 	
-	public String getOrderNums() {
+	public String getOrderNums() { // this is showing order number 1 even after its been deleted!
 		String availableOrderNums = "Available order numbers:\n ";
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
 			List<Order> orders = new ArrayList<>();
 			Set<Long> longHash = new HashSet<>();
-			while (resultSet.next()) {
+			while (resultSet.next()) { 
 				Long availId = modelFromResultSet(resultSet).getId();
 				longHash.add(availId);
 			}

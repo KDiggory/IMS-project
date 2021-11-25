@@ -116,12 +116,17 @@ public class OrderItemController implements CrudController<OrderItem> {
 	}
 	
 	public OrderItem removeFromOrder(Long id) {
+		OrderController orderController = new OrderController(orderDAO, utils);
 		ItemDAO itemDAO = new ItemDAO(); 
-		LOGGER.info(itemDAO.getItemNumsFromOrder(id)); //issue is here - column name not found?
+		
+		LOGGER.info(itemDAO.getItemNumsFromOrder(id));  
 		LOGGER.info("Please enter the id of the item you would like to remove");
 		Long itemId = utils.getLong();
-		orderItemDAO.deleteFromOrder(id,itemId);
-		
+		orderItemDAO.deleteFromOrder(id,itemId); // problem here - sql syntax problem
+		if (orderItemDAO.ifExists(id) == false) { // problem is here - deleting whole order if any are removed
+			System.out.println("In: if exists if loop");
+			orderController.deleteNoInput(id);			
+		}
 		return null;
 	}
 	
