@@ -29,6 +29,8 @@ public class CustomerControllerTest {
 	@InjectMocks
 	private CustomerController controller;
 
+	
+	
 	@Test
 	public void testCreate() {
 		final String F_NAME = "barry", L_NAME = "scott";
@@ -43,7 +45,7 @@ public class CustomerControllerTest {
 		Mockito.verify(dao, Mockito.times(1)).create(created);
 	}
 
-	@Test
+	@Test 
 	public void testReadAll() {
 		List<Customer> customers = new ArrayList<>();
 		customers.add(new Customer(1L, "jordan", "harrison"));

@@ -7,17 +7,17 @@ public class Item {
 	private Long id;
 	private String name;
 	private String size;
-	private long cost;
+	private Long cost;
 	
 	
-	public Item(String name, String size, long cost) {
+	public Item(String name, String size, Long cost) {
 		super();
 		this.name = name;
 		this.size = size;
 		this.cost = cost;
 	}
 	
-	public Item(Long id, String name, String size, long cost) {
+	public Item(Long id, String name, String size, Long cost) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -49,11 +49,11 @@ public class Item {
 		this.size = size;
 	}
 
-	public long getCost() {
+	public Long getCost() {
 		return cost;
 	}
 
-	public void setCost(long cost) {
+	public void setCost(Long cost) {
 		this.cost = cost;
 	}
 

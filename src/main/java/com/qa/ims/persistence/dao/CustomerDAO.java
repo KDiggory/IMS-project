@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Customer;
+import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.DBUtils;
 
 public class CustomerDAO implements Dao<Customer> {
@@ -46,6 +49,29 @@ public class CustomerDAO implements Dao<Customer> {
 			LOGGER.error(e.getMessage());
 		}
 		return new ArrayList<>();
+	}
+	
+	
+	//read all but with a better format for listing
+	public String readAllIds() {
+		String availCustIds = "Available customer ids:\n";
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers");) {
+			Set<Long> longHash = new HashSet<>();
+			List<Customer> customers = new ArrayList<>();
+			while (resultSet.next()) {
+				customers.add(modelFromResultSet(resultSet));
+				Long availId = modelFromResultSet(resultSet).getId();
+				longHash.add(availId);
+			}
+			availCustIds = availCustIds + longHash.toString();
+			return availCustIds;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return "";
 	}
 
 	public Customer readLatest() {
@@ -90,6 +116,7 @@ public class CustomerDAO implements Dao<Customer> {
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
 				return modelFromResultSet(resultSet);
+				
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -97,6 +124,12 @@ public class CustomerDAO implements Dao<Customer> {
 		}
 		return null;
 	}
+	
+//	List<Customer> customers = new ArrayList<>();
+//	while (resultSet.next()) {
+//		customers.add(modelFromResultSet(resultSet));
+//	}
+//	return customers;
 
 	/**
 	 * Updates a customer in the database

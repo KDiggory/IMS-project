@@ -56,4 +56,29 @@ public class CustomerDAOTest {
 	public void testDelete() {
 		assertEquals(1, DAO.delete(1));
 	}
+	
+	@Test
+	public void testReadAllIds() {
+		String expected = "Available customer ids:\n" + "[1]";
+		assertEquals(expected, DAO.readAllIds());
+	}
+//	@Test
+//	public void testReadAllIdsException() { // is not working
+//		DAO.delete(1L);
+//		String expected = "Available customer ids:[]" ;
+//		assertEquals(expected, DAO.readAllIds());
+//	}
+	@Test
+	public void testReadLatestException() { 
+		Object expected = null;
+		DAO.delete(1L);
+		assertEquals(expected, DAO.readLatest());
+	}
+	
+	@Test
+	public void testReadException() { 
+		Object expected = null;
+		DAO.delete(1L);
+		assertEquals(expected, DAO.read(100L));
+	}
 }

@@ -46,6 +46,7 @@ public class Customer {
 		return "id:" + id + " first name:" + firstName + " surname:" + surname;
 	}	
 	
+	// Dont think I need these??
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -61,7 +62,7 @@ public class Customer {
 		if (this == obj)
 			return true;
 		if (obj == null)
-			return false;
+			return false; 
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;

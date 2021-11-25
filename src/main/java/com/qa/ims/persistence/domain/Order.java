@@ -13,17 +13,16 @@ public class Order {
 	}
 
 	public Order(Long customerId) {
-		super();
+		super(); 
 		this.customerId = customerId;
 
 	}
 
-//	public Order(Long id, Long customerId) {
-//		super();
-//		this.id = id;
-//		this.customerId = customerId;
-//
-//	}
+	public Order(Long id, Long customerId) {
+		super();
+		this.id = id;
+		this.customerId = customerId;
+	}
 
 	public Long getId() {
 		return id;
@@ -60,7 +59,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customerId=" + customerId + "]";
+		return "Order id:" + id + ", Customer Id:" + customerId + "]";
 	}
 
 }
