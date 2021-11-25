@@ -14,6 +14,7 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.JoinTable;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.DBUtils;
@@ -272,14 +273,14 @@ public class OrderDAO implements Dao<Order> {
 	return totalCost;
 	}
 	
-	public String getOrderNums() {
+	public String getOrderNums() { // this is showing order number 1 even after its been deleted!
 		String availableOrderNums = "Available order numbers:\n ";
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
 			List<Order> orders = new ArrayList<>();
 			Set<Long> longHash = new HashSet<>();
-			while (resultSet.next()) {
+			while (resultSet.next()) { 
 				Long availId = modelFromResultSet(resultSet).getId();
 				longHash.add(availId);
 			}
@@ -301,6 +302,27 @@ public class OrderDAO implements Dao<Order> {
 			Set<Long> longHash = new HashSet<>();
 			while (resultSet.next()) {
 				Long availId = modelFromResultSet(resultSet).getCustomerId();
+				longHash.add(availId);
+			}
+			availableCustNums = availableCustNums + longHash.toString();
+			return availableCustNums;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return "";
+	}
+
+	public String getAllCustomerNums() {
+		String availableCustNums = "Available customers: ";
+		CustomerDAO custDAO = new CustomerDAO();
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers");) {
+			List<Order> orders = new ArrayList<>();
+			Set<Long> longHash = new HashSet<>();
+			while (resultSet.next()) {
+				Long availId = custDAO.modelFromResultSet(resultSet).getId();
 				longHash.add(availId);
 			}
 			availableCustNums = availableCustNums + longHash.toString();

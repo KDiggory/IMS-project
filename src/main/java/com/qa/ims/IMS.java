@@ -50,6 +50,7 @@ public class IMS {
 			LOGGER.info("\tWhich entity would you like to use?");
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			Domain.printDomains();
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 			domain = Domain.getDomain(utils);
 
@@ -83,6 +84,7 @@ public class IMS {
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 			Action.printActions();
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			Action action = Action.getAction(utils);
 
 			if (action == Action.RETURN) {

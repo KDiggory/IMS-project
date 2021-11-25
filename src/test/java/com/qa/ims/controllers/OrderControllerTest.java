@@ -15,7 +15,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.qa.ims.controller.OrderController;
 import com.qa.ims.controller.OrderItemController;
 import com.qa.ims.persistence.dao.OrderDAO;
+import com.qa.ims.persistence.dao.OrderItemDAO;
+import com.qa.ims.persistence.domain.JoinTable;
 import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.Utils;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -27,6 +30,9 @@ public class OrderControllerTest {
 	@Mock
 	private OrderDAO DAO;
 	
+	@Mock
+	private OrderItemDAO oIDAO;
+	
 	@InjectMocks
 	private OrderController controller;
 	
@@ -34,22 +40,24 @@ public class OrderControllerTest {
 	private OrderItemController oIcontroller;
 	
 	@Test
-	public void testCreate() { // coming up null like the one for Item controller
+	public void testCreate() { 
 		final Long id = 1L;
 		final Long custId = 1L;
 		final Order order = new Order(id, custId);
+		final OrderItem orderItem =  new OrderItem(1L, 1L, "beer", 2L, 2L); // do i need this?
 
 		Mockito.when(utils.getLong()).thenReturn(id, custId);
 		Mockito.when(DAO.create(order)).thenReturn(order);
 
 		assertEquals(order, controller.create());
+		
 
 		Mockito.verify(utils, Mockito.times(2)).getLong();
 		Mockito.verify(DAO, Mockito.times(1)).create(order);
 	}
 	
 	@Test 
-	public void testReadAll() {
+	public void testReadAll() { // working
 		List<Order> orders = new ArrayList<>();
 		orders.add(new Order(1L, 1L));
 
@@ -73,7 +81,7 @@ public class OrderControllerTest {
 		Mockito.verify(this.DAO, Mockito.times(1)).update(updated);
 	}
 	@Test
-	public void testDelete() {
+	public void testDelete() { // working
 		final long ID = 1L;
 		
 		Mockito.when(utils.getLong()).thenReturn(ID);
@@ -86,7 +94,7 @@ public class OrderControllerTest {
 	}
 	
 	@Test
-	public void testReadById() {
+	public void testReadById() { // not working
 		final long ID = 1L;
 		Order testOrder = new Order(1L, 1L);
 		
@@ -101,39 +109,135 @@ public class OrderControllerTest {
 	}
 	
 	@Test
-	public void testReadAllOrders() {
-		
-		
+	public void testReadAllOrders() { // is working
+		List<JoinTable> orders = new ArrayList<>();
+		orders.add(new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L));
+
+		Mockito.when(DAO.readAllOrders()).thenReturn(orders);
+
+		assertEquals(orders, controller.readAllOrders());
+
+		Mockito.verify(DAO, Mockito.times(1)).readAllOrders();
 	}
-	@Test
-	public void testreadByCustomer(){
 		
-	}
+	
 	@Test
-	public void testgetTotal() {
+	public void testreadByCustomer(){ // expecting a join table entry but is empty
+		List<JoinTable> orders = new ArrayList<>();
+		orders.add(new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L));
+
+		Mockito.when(DAO.readByCustomer(1L)).thenReturn(orders);
+
+		assertEquals(orders, controller.readByCustomer());
+
+		Mockito.verify(DAO, Mockito.times(1)).readByCustomer(1L);
+	}
+		
+	@Test
+	public void testgetTotal() { // not working - failure rather than wrong assertion 
+		Long totalSum = 1L;
+		List<JoinTable> orders = new ArrayList<>();
+		orders.add(new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L));
+		
+		Mockito.when(this.utils.getLong()).thenReturn(DAO.totalCost(1L));
+		Mockito.when(this.DAO.totalCost(1L)).thenReturn(totalSum);
+	
+		assertEquals(totalSum, this.controller.getTotal(1L, 1));
+
+		Mockito.verify(this.utils, Mockito.times(2)).getLong();
+		Mockito.verify(this.DAO, Mockito.times(1)).totalCost(1L);
 		
 	}
 	
 	@Test
-	public void testReadByIdInput() {
+	public void testReadByIdInput() { // is working
+		JoinTable order = new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L);
+		
+		Mockito.when(controller.readByIdInput(1L)).thenReturn(order);
+		
+
+		assertEquals(order, controller.readByIdInput(1L));
+
+		Mockito.verify(DAO, Mockito.times(1)).readId(1L);
+		Mockito.verify(this.utils, Mockito.times(1)).getLong(); // add the utils stuff	
+		
 		
 	}
 	@Test
-	public void testGetTotalOrder() {
+	public void testGetTotalOrder() { // is working
+		Long totalSum = 1L;
+		List<JoinTable> orders = new ArrayList<>();
+		orders.add(new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L));
+		
+		Mockito.when(controller.getTotalOrder(1L, 1)).thenReturn(totalSum);
+		Mockito.when(this.DAO.totalCostByOrder(1L)).thenReturn(totalSum);
+		
+		assertEquals(totalSum, controller.getTotalOrder(1L,1));
+		
+		Mockito.verify(DAO, Mockito.times(1)).totalCostByOrder(1L);
+		Mockito.verify(this.utils, Mockito.times(1)).getLong(); // add the utils stuff	
+		
 		
 	}
 	@Test
-	public void testReadIdTable() {
-		
+	public void testReadIdTable() { // this is not working, says an arraylist cannot be returned by totalCostOfOrder
+	Long totalCost = 1L;
+	List<JoinTable> orders = new ArrayList<>();
+	orders.add(new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L));
+	
+	Mockito.when(controller.readIdTable()).thenReturn(orders);
+	Mockito.when(this.DAO.readIdTable(1L)).thenReturn(orders);
+	
+	assertEquals(orders, controller.readIdTable());
+	assertEquals(orders, this.DAO.readIdTable(1L));
+	
+	Mockito.verify(DAO, Mockito.times(1)).readIdTable(1L);
+	Mockito.verify(this.DAO, Mockito.times(1)).getOrderNums();
+	Mockito.verify(controller, Mockito.times(1)).readIdTable();
+	Mockito.verify(this.utils, Mockito.times(1)).getLong();
+	
 	}
 	@Test
-	public void testAddToOrder() {
-		
+	public void testAddToOrder() { // saying cannot invoke join table get customer id because order is null
+	OrderItem test = new OrderItem(1L, 1L, "beer", 2L, 2L);
+	JoinTable testJoin = new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L); // adding this doesn't help it not be null!
+	List<JoinTable> orders = new ArrayList<>();
+	orders.add(new JoinTable(1L, "Diggory", 1L, 1L, "cake", 1L, 1L, 1L));	
+	
+	Mockito.when(oIcontroller.addToOrder(1L)).thenReturn(test) ;
+	Mockito.when(this.DAO.readIdTable(1L)).thenReturn(orders);
+	
+	assertEquals(test, oIcontroller.addToOrder(1L));
+	
+	Mockito.verify(this.utils, Mockito.times(1)).getLong();
+	Mockito.verify(this.DAO, Mockito.times(1)).readIdTable(1L);
+	Mockito.verify(this.DAO, Mockito.times(1)).getOrderNums();
+	Mockito.verify(this.oIcontroller, Mockito.times(1)).addToOrder(1L);
+	
+	
 	}
 	@Test
-	public void testRemoveFromOrder() {
+	public void testRemoveFromOrder() { // coming back as null
+	final long ID = 1L;
+	
+	Mockito.when(utils.getLong()).thenReturn(ID);
+	Mockito.when(DAO.delete(ID)).thenReturn(1);
+	
+	//assertEquals(1L, controller.removeFromOrder());
+	assertEquals(1L, oIcontroller.removeFromOrder(1L));
+	
+		
+	Mockito.verify(this.utils, Mockito.times(1)).getLong();
+	Mockito.verify(this.DAO, Mockito.times(1)).getOrderNums();
+	Mockito.verify(this.controller, Mockito.times(1)).removeFromOrder();
+	Mockito.verify(this.oIcontroller, Mockito.times(1)).removeFromOrder(1L);
+	Mockito.verify(this.oIDAO, Mockito.times(1)).deleteFromOrder(1L, 1L);
+	
 		
 	}
+}
+	
+	// one more not covered - which one?
 	
 
-}
+

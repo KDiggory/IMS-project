@@ -120,22 +120,6 @@ public class OrderItemDAO implements Dao<OrderItem> {
 
 	@Override // made my own for this one 
 	public OrderItem update(OrderItem orderItem) {
-//			try (Connection connection = DBUtils.getInstance().getConnection();
-//					PreparedStatement statement = connection
-//							.prepareStatement("UPDATE order_items SET orderId=?, itemId=?, itemName=?, numItems=?, cost=?)"
-//									+ "WHERE id =?");) {
-//				statement.setLong(1,  orderItem.getOrderId());
-//				statement.setLong(2, orderItem.getItemId());
-//				statement.setString(3,  orderItem.getItemName());
-//				statement.setLong(4,  orderItem.getNumItems());
-//				statement.setLong(5, orderItem.getId());
-//				statement.setLong(6, orderItem.getCost());
-//				statement.executeUpdate();
-//				return readLatest();
-//			} catch (Exception e) {
-//				LOGGER.debug(e);
-//				LOGGER.error(e.getMessage());
-//			}
 			return null;
 		}
 
@@ -152,22 +136,23 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		return 0;
 	}
 	
-	public int deleteFromOrder(long id, long itemId) {
+	public void deleteFromOrder(long id, long itemId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE order_items.orderId = ? AND order_items.itemId=?");) {
-			statement.setLong(1, id);
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE orderId = ? AND itemId=?");) {
+			statement.setLong(1, id);										// this works in MySQL workbench
 			statement.setLong(2,  itemId);
-			return statement.executeUpdate();
+			statement.executeUpdate();
+			System.out.println("Item deleted"); // getting here - yes
 			
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return 0;
+		
 	}
+	// this needs to delete from order if the orderitems is null!
 	
-	
-
+// does this get used??
 	public OrderItem updateOrder(OrderItem orderItem) {
 		Long id = orderItem.getOrderId();
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -185,8 +170,37 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		return null;
 	}
 	
+	public boolean ifExists(Long id) { // a problem here that means the whole order is getting deleted even if there is still something in it 
+		boolean bool = false;
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("SELECT EXISTS(SELECT * FROM order_items WHERE orderId=?)");) {
+		 statement.setLong(1, id);
+		 ResultSet num = statement.executeQuery(); // this is the issue - need to get an int out not a result set
+		// System.out.println(num.getFetchSize()); // its printing 0 here! but should be 1 as there is still something in there 
+		 if (num.next()) {
+			// System.out.println("TRUE");
+			 bool = true;
+		 }else if (!num.next()) {
+			 bool = false;
+			// System.out.println("FALSE");}
+//		 if (num.getFetchSize() > 0 ) {  This didn't work so I did what is currently working. 
+//			 bool = true;
+//			 System.out.println("TRUE");
+//		 } else if (num.getFetchSize() == 0) {
+//			 bool = false;
+//			 System.out.println("FALSE");
+			 }
+			 } catch (Exception e) {
+				 LOGGER.debug(e);
+					LOGGER.error(e.getMessage());
+			 }
+			 return bool;		
+	}
+	
 	
 }
+
 
 
 

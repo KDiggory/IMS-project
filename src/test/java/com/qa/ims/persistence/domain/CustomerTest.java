@@ -47,7 +47,7 @@ public class CustomerTest {
 		customer.setId(2L);
 		long expected = customer.getId();
 		long test = 2L;
-		assertEquals(expected, test); 
+		assertEquals(expected, test);  
 	}
 	
 	@Test

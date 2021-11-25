@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.DBUtils;
 
@@ -25,7 +25,7 @@ private final OrderItemDAO DAO = new OrderItemDAO();
 	@Test
 	public void testCreate() {
 		final OrderItem created = new OrderItem(1L, 1L, "beer", 2L, 2L); // coming up as order 60 in the one tested against - increments each time you do it?!
-		assertEquals(created, DAO.create(created));
+		assertEquals(created, DAO.create(created));							// was because on deleting tables in sql schema was put wrong, moved those with most fk to top and it was sorted
 	}
 	
 	@Test
@@ -43,8 +43,8 @@ private final OrderItemDAO DAO = new OrderItemDAO();
 	
 	
 	@Test 
-	public void testDeleteFromOrder() {
-		assertEquals(1, DAO.deleteFromOrder(1,1));
+	public void testDeleteFromOrder() { // why is this like this??
+		assertEquals(1, DAO.deleteFromOrder(1L, 1L));
 		
 	}
 	
@@ -65,6 +65,15 @@ private final OrderItemDAO DAO = new OrderItemDAO();
 	@Test
 	public void testReadLatest() {
 		assertEquals(new OrderItem(1L, 1L, "beer", 2L, 2L), DAO.readLatest());
+	}
+	@Test
+	public void testfExists() {
+		boolean bool = true;
+		assertEquals(bool, DAO.ifExists(5L));
+		boolean bool2 = false;
+		assertNotEquals(bool2, DAO.ifExists(5L));
+	//	assertEquals(!bool2, DAO.ifExists(5L));
+		 
 	}
 
 }
