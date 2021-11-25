@@ -1,0 +1,32 @@
+20211125 22:32:08 INFO  [main] ims.IMS IMS.java44 - 	Welcome to the Inventory Management System!
+20211125 22:32:08 INFO  [main] ims.IMS IMS.java50 - 	Which entity would you like to use?
+20211125 22:32:08 INFO  [main] domain.Domain Domain.java27 - CUSTOMER: Information about customers
+20211125 22:32:08 INFO  [main] domain.Domain Domain.java27 - ITEM: Individual Items
+20211125 22:32:08 INFO  [main] domain.Domain Domain.java27 - ORDER: Purchases of items
+20211125 22:32:08 INFO  [main] domain.Domain Domain.java27 - STOP: To close the application
+20211125 22:32:18 INFO  [main] ims.IMS IMS.java83 - 
+What would you like to do with customer:
+20211125 22:32:18 INFO  [main] controller.Action Action.java38 - CREATE: To save a new entity into the database
+20211125 22:32:18 INFO  [main] controller.Action Action.java38 - READ: To read an entity from the database
+20211125 22:32:18 INFO  [main] controller.Action Action.java38 - UPDATE: To change an entity already in the database
+20211125 22:32:18 INFO  [main] controller.Action Action.java38 - DELETE: To remove an entity from the database
+20211125 22:32:18 INFO  [main] controller.Action Action.java38 - RETURN: To return to domain selection
+20211125 22:32:19 INFO  [main] ims.IMS IMS.java104 - Would you like to read all or by id?
+20211125 22:32:20 INFO  [main] controller.CustomerController CustomerController.java37 - id:1 first name:Captain  surname:Barnacles
+20211125 22:32:20 INFO  [main] controller.CustomerController CustomerController.java37 - id:2 first name:Quasi 'The Pirate' surname:Cat
+20211125 22:32:20 INFO  [main] controller.CustomerController CustomerController.java37 - id:3 first name:Professor surname:Inkling
+20211125 22:32:20 INFO  [main] controller.CustomerController CustomerController.java37 - id:4 first name:Dashi surname:Dog
+20211125 22:32:20 INFO  [main] controller.CustomerController CustomerController.java37 - id:5 first name:Alex surname:Gray
+20211125 22:32:20 INFO  [main] ims.IMS IMS.java83 - 
+What would you like to do with customer:
+20211125 22:32:20 INFO  [main] controller.Action Action.java38 - CREATE: To save a new entity into the database
+20211125 22:32:20 INFO  [main] controller.Action Action.java38 - READ: To read an entity from the database
+20211125 22:32:20 INFO  [main] controller.Action Action.java38 - UPDATE: To change an entity already in the database
+20211125 22:32:20 INFO  [main] controller.Action Action.java38 - DELETE: To remove an entity from the database
+20211125 22:32:20 INFO  [main] controller.Action Action.java38 - RETURN: To return to domain selection
+20211125 22:32:24 INFO  [main] ims.IMS IMS.java50 - 	Which entity would you like to use?
+20211125 22:32:24 INFO  [main] domain.Domain Domain.java27 - CUSTOMER: Information about customers
+20211125 22:32:24 INFO  [main] domain.Domain Domain.java27 - ITEM: Individual Items
+20211125 22:32:24 INFO  [main] domain.Domain Domain.java27 - ORDER: Purchases of items
+20211125 22:32:24 INFO  [main] domain.Domain Domain.java27 - STOP: To close the application
+20211125 22:32:26 INFO  [main] ims.Runner Runner.java13 - Thanks for using this IMS, see you next time!

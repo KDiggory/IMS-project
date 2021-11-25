@@ -16,10 +16,6 @@ public class CustomerTest {
 	customer = new Customer("Katie", "Diggory");
 	}
 
-	@Test
-	public void testEquals() {
-		EqualsVerifier.simple().forClass(Customer.class).verify();
-	}
 	
 	@Test
 	public void constructorTest() {

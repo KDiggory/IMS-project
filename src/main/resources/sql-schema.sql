@@ -1,16 +1,18 @@
-CREATE SCHEMA IF NOT EXISTS `ims`;
+DROP TABLE IF EXISTS `order_items`;
+ DROP TABLE IF EXISTS `orders`; 
+ DROP TABLE IF EXISTS `items`;
+DROP TABLE IF EXISTS `customers`;
 
-USE `ims` ;
-
-CREATE TABLE IF NOT EXISTS `ims`.`customers` (
-    `id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `customers` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `first_name` VARCHAR(40) DEFAULT NULL,
     `surname` VARCHAR(40) DEFAULT NULL,
     PRIMARY KEY (`id`)
-    ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS `ims`.`items` (
+
+
+CREATE TABLE IF NOT EXISTS `items` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(40) NOT NULL,
     `size` VARCHAR(40)  NOT NULL,
@@ -18,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `ims`.`items` (
     PRIMARY KEY (`id`)
     
     );
-    
 
-CREATE TABLE IF NOT EXISTS `ims`.`orders` (
+    
+    CREATE TABLE IF NOT EXISTS `orders` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
     `customerId` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -29,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `ims`.`orders` (
   ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS `ims`.`order_items` (
+
+CREATE TABLE IF NOT EXISTS `order_items` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
     `orderId` INT NOT NULL,
     `itemId` INT NOT NULL,
@@ -41,6 +44,3 @@ CREATE TABLE IF NOT EXISTS `ims`.`order_items` (
   ON DELETE CASCADE
   ON UPDATE CASCADE
 );
-
-
-

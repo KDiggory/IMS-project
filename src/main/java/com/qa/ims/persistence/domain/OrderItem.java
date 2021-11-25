@@ -15,7 +15,6 @@ public class OrderItem {
 		super();
 	}
 
-	public OrderItem(Long id, Long orderId, Long itemId, String itemName, Long numItems, Long cost) {
 
 	public OrderItem(Long id, Long orderId, Long itemId, String itemName, Long cost, Long numItems) {
 

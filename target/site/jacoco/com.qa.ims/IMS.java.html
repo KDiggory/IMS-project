@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IMS.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ims</a> &gt; <a href="index.source.html" class="el_package">com.qa.ims</a> &gt; <span class="el_source">IMS.java</span></div><h1>IMS.java</h1><pre class="source lang-java linenums">package com.qa.ims;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.qa.ims.controller.Action;
+import com.qa.ims.controller.CrudController;
+import com.qa.ims.controller.CustomerController;
+import com.qa.ims.controller.ItemController;
+import com.qa.ims.controller.OrderController;
+import com.qa.ims.controller.OrderItemController;
+import com.qa.ims.persistence.dao.CustomerDAO;
+import com.qa.ims.persistence.dao.ItemDAO;
+import com.qa.ims.persistence.dao.OrderDAO;
+import com.qa.ims.persistence.dao.OrderItemDAO;
+import com.qa.ims.persistence.domain.Domain;
+import com.qa.ims.utils.DBUtils;
+import com.qa.ims.utils.Utils;
+
+public class IMS {
+
+<span class="nc" id="L22">	public static final Logger LOGGER = LogManager.getLogger();</span>
+
+	private final CustomerController customers;
+	private final ItemController items;
+	private final OrderController orders;
+	private final OrderItemController orderItems;
+	private final Utils utils;
+
+<span class="nc" id="L30">	public IMS() {</span>
+<span class="nc" id="L31">		this.utils = new Utils(); </span>
+<span class="nc" id="L32">		final CustomerDAO custDAO = new CustomerDAO();</span>
+<span class="nc" id="L33">		final ItemDAO itemDAO = new ItemDAO();</span>
+<span class="nc" id="L34">		final OrderDAO orderDAO = new OrderDAO();</span>
+<span class="nc" id="L35">		final OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
+<span class="nc" id="L36">		this.customers = new CustomerController(custDAO, utils);</span>
+<span class="nc" id="L37">		this.orders = new OrderController(orderDAO, utils);</span>
+<span class="nc" id="L38">		this.items = new ItemController(itemDAO, utils);</span>
+<span class="nc" id="L39">		this.orderItems = new OrderItemController(orderItemDAO, utils);</span>
+<span class="nc" id="L40">	}</span>
+
+	public void imsSystem() {
+<span class="nc" id="L43">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L44">		LOGGER.info(&quot;\tWelcome to the Inventory Management System!&quot;);</span>
+<span class="nc" id="L45">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L46">		DBUtils.connect();</span>
+
+<span class="nc" id="L48">		Domain domain = null;</span>
+		do {
+<span class="nc" id="L50">			LOGGER.info(&quot;\tWhich entity would you like to use?&quot;);</span>
+<span class="nc" id="L51">			System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L52">			Domain.printDomains();</span>
+<span class="nc" id="L53">			System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+
+<span class="nc" id="L55">			domain = Domain.getDomain(utils);</span>
+
+<span class="nc" id="L57">			domainAction(domain);</span>
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">		} while (domain != Domain.STOP);</span>
+<span class="nc" id="L60">	}</span>
+
+	private void domainAction(Domain domain) {
+<span class="nc" id="L63">		boolean changeDomain = false;</span>
+		do {
+
+<span class="nc" id="L66">			CrudController&lt;?&gt; active = null;</span>
+<span class="nc bnc" id="L67" title="All 5 branches missed.">			switch (domain) {</span>
+			case CUSTOMER:
+<span class="nc" id="L69">				active = this.customers;</span>
+<span class="nc" id="L70">				break;</span>
+			case ITEM:
+<span class="nc" id="L72">				active = this.items;</span>
+<span class="nc" id="L73">				break;</span>
+			case ORDER:
+<span class="nc" id="L75">				active = this.orders;</span>
+<span class="nc" id="L76">				break;</span>
+			case STOP:
+<span class="nc" id="L78">				return;</span>
+			default:
+				break;
+			}
+<span class="nc" id="L82">			System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L83">			LOGGER.info(() -&gt; &quot;\nWhat would you like to do with &quot; + domain.name().toLowerCase() + &quot;:&quot;);</span>
+<span class="nc" id="L84">			System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+
+<span class="nc" id="L86">			Action.printActions();</span>
+<span class="nc" id="L87">			System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L88">			Action action = Action.getAction(utils);</span>
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">			if (action == Action.RETURN) {</span>
+<span class="nc" id="L91">				changeDomain = true;</span>
+			} else {
+<span class="nc" id="L93">				doAction(active, action);</span>
+			}
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		} while (!changeDomain);</span>
+<span class="nc" id="L96">	}</span>
+
+	public void doAction(CrudController&lt;?&gt; crudController, Action action) {
+<span class="nc bnc" id="L99" title="All 6 branches missed.">		switch (action) {</span>
+		case CREATE:
+<span class="nc" id="L101">			crudController.create();</span>
+<span class="nc" id="L102">			break;</span>
+		case READ:
+<span class="nc" id="L104">			LOGGER.info(&quot;Would you like to read all or by id?&quot;);</span>
+<span class="nc" id="L105">			String answer = utils.getString();</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">			if (answer.contains(&quot;all&quot;)) {</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">				if (crudController == this.orders ) {</span>
+<span class="nc" id="L108">					((OrderController) crudController).readAllOrders(); // need a different read for the orders</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">				} else if ((crudController != this.orders ))  {</span>
+<span class="nc" id="L110">					crudController.readAll();</span>
+			} 
+<span class="nc bnc" id="L112" title="All 2 branches missed.">				}else if (answer.contains(&quot;id&quot;)) {</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">					{if (crudController == this.orders ) {</span>
+<span class="nc" id="L114">						LOGGER.info(&quot;Would you like to read by order id or customer id?&quot;);</span>
+<span class="nc" id="L115">						String answer2 = utils.getString();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">						if (answer2.contains(&quot;order&quot;)) {</span>
+							// here 
+							
+<span class="nc" id="L119">							((OrderController) crudController).readIdTable();	</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">					} else if (answer2.contains(&quot;customer&quot;)) {</span>
+<span class="nc" id="L121">						((OrderController) crudController).readByCustomer();	</span>
+					}
+						
+<span class="nc" id="L124">					} else {</span>
+<span class="nc" id="L125">						crudController.readById();</span>
+					}
+				} 
+			} 
+			break;
+		case UPDATE:
+<span class="nc bnc" id="L131" title="All 2 branches missed.">			if (crudController == this.orders ) {</span>
+<span class="nc" id="L132">				LOGGER.info(&quot;When updating your order you can just add or remove items, would you like to add or remove items from an order?&quot;);</span>
+<span class="nc" id="L133">				String answer3 = utils.getString();</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">				if (answer3.contains(&quot;add&quot;)) {</span>
+<span class="nc" id="L135">				((OrderController) crudController).addToOrder();</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">				} else if(answer3.contains(&quot;remove&quot;)) {</span>
+<span class="nc" id="L137">					((OrderController) crudController).removeFromOrder();</span>
+				}
+<span class="nc bnc" id="L139" title="All 2 branches missed.">			} else if ((crudController != this.orders ))  {</span>
+<span class="nc" id="L140">				crudController.update();</span>
+		} 
+			break;
+		case DELETE:
+<span class="nc" id="L144">			crudController.delete();</span>
+<span class="nc" id="L145">			break;</span>
+		case RETURN:
+<span class="nc" id="L147">			break;</span>
+		default:
+			break;
+		}
+	
+
+<span class="nc" id="L153">}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

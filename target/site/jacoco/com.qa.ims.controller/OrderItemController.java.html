@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderItemController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ims</a> &gt; <a href="index.source.html" class="el_package">com.qa.ims.controller</a> &gt; <span class="el_source">OrderItemController.java</span></div><h1>OrderItemController.java</h1><pre class="source lang-java linenums">package com.qa.ims.controller;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.qa.ims.persistence.dao.CustomerDAO;
+import com.qa.ims.persistence.dao.ItemDAO;
+import com.qa.ims.persistence.dao.OrderDAO;
+import com.qa.ims.persistence.dao.OrderItemDAO;
+import com.qa.ims.persistence.domain.Item;
+import com.qa.ims.persistence.domain.JoinTable;
+import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.persistence.domain.OrderItem;
+import com.qa.ims.utils.Utils;
+
+public class OrderItemController implements CrudController&lt;OrderItem&gt; {
+
+<span class="fc" id="L20">	public static final Logger LOGGER = LogManager.getLogger();</span>
+ 
+	private OrderDAO orderDAO;
+	private CustomerDAO customerDAO;
+	private ItemDAO itemDAO;
+	private OrderItemDAO orderItemDAO;
+	private Utils utils;
+
+	public OrderItemController(OrderItemDAO orderItemDAO, Utils utils) {
+<span class="fc" id="L29">		super();</span>
+<span class="fc" id="L30">		this.utils = utils;</span>
+<span class="fc" id="L31">		this.orderItemDAO = orderItemDAO;</span>
+<span class="fc" id="L32">	}</span>
+
+	@Override
+	public List&lt;OrderItem&gt; readAll() {
+<span class="fc" id="L36">		List&lt;OrderItem&gt; orderItems = orderItemDAO.readAll();</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">		for (OrderItem orderItem : orderItems) {</span>
+<span class="fc" id="L38">			LOGGER.info(orderItem);</span>
+<span class="fc" id="L39">		}</span>
+<span class="fc" id="L40">		return orderItems;</span>
+	}
+
+	@Override
+	public OrderItem create() {
+		
+		// always accessed through order create
+<span class="nc" id="L47">		OrderDAO orderDAO = new OrderDAO();		//move these to the top of the class </span>
+<span class="nc" id="L48">		CustomerDAO customerDAO = new CustomerDAO();</span>
+<span class="nc" id="L49">		ItemDAO itemDAO = new ItemDAO();</span>
+<span class="nc" id="L50">		OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
+
+<span class="nc" id="L52">		OrderController orderController = new OrderController(orderDAO, utils);</span>
+<span class="nc" id="L53">		Order order = orderController.readLatest();</span>
+<span class="nc" id="L54">		Long orderId = order.getId();</span>
+		
+<span class="nc" id="L56">		LOGGER.info(itemDAO.getItemNums());  // prints out the item numbers available</span>
+
+<span class="nc" id="L58">		LOGGER.info(&quot;Please enter the Item id&quot;);</span>
+<span class="nc" id="L59">		Long itemId = utils.getLong();</span>
+<span class="nc" id="L60">		LOGGER.info(&quot;Please enter the number of this item you would like&quot;);</span>
+<span class="nc" id="L61">		Long numItems = utils.getLong();</span>
+
+<span class="nc" id="L63">		Long custId = order.getCustomerId();</span>
+<span class="nc" id="L64">		Item item = itemDAO.read(itemId);</span>
+<span class="nc" id="L65">		String itemName = item.getName();</span>
+<span class="nc" id="L66">		Long cost = item.getCost();</span>
+		//System.out.println(cost);
+<span class="nc" id="L68">		Long costTotal = cost * numItems;</span>
+		//System.out.println(costTotal);
+<span class="nc" id="L70">		OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, itemId, itemName, numItems, costTotal)); // this is WAS the problem</span>
+<span class="nc" id="L71">		LOGGER.info(&quot;Order Item created&quot;);</span>
+		//LOGGER.info(orderItemDAO.readLatest()); // add an option to add more items here - reference add to order method
+<span class="nc" id="L73">		LOGGER.info(&quot;Would you like to add another item to this order?&quot;);</span>
+<span class="nc" id="L74">		String answer = utils.getString();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">		if (answer.contains(&quot;y&quot;)){</span>
+<span class="nc" id="L76">			addToOrder(orderId);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">		} else if (answer.contains(&quot;n&quot;)) {</span>
+<span class="nc" id="L78">			LOGGER.info(&quot;You can come back and do this later if you change your mind&quot;);</span>
+		}
+<span class="nc" id="L80">		return orderItemDAO.readLatest();</span>
+	}
+
+	public OrderItem addToOrder(Long id) {
+<span class="nc" id="L84">		OrderDAO orderDAO = new OrderDAO();		//move these to the top of the class </span>
+<span class="nc" id="L85">		CustomerDAO customerDAO = new CustomerDAO();</span>
+<span class="nc" id="L86">		ItemDAO itemDAO = new ItemDAO();</span>
+<span class="nc" id="L87">		OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
+
+<span class="nc" id="L89">		OrderController orderController = new OrderController(orderDAO, utils);</span>
+<span class="nc" id="L90">		JoinTable order = orderController.readByIdInput(id); </span>
+<span class="nc" id="L91">		LOGGER.info(itemDAO.getItemNums());</span>
+<span class="nc" id="L92">		LOGGER.info(&quot;Please enter the Item id&quot;);</span>
+<span class="nc" id="L93">		Long itemId = utils.getLong();</span>
+<span class="nc" id="L94">		LOGGER.info(&quot;Please enter the number of this item you would like&quot;);</span>
+<span class="nc" id="L95">		Long numItems = utils.getLong();</span>
+<span class="nc" id="L96">		Long custId = order.getCustomerId(); // this is not working because order is null!</span>
+<span class="nc" id="L97">		Item item = itemDAO.read(itemId); </span>
+<span class="nc" id="L98">		String itemName = item.getName();</span>
+<span class="nc" id="L99">		Long cost = item.getCost();</span>
+<span class="nc" id="L100">		Long costTotal = cost * numItems;</span>
+<span class="nc" id="L101">		OrderItem orderItem = orderItemDAO.create(new OrderItem(id, itemId, itemName, numItems, costTotal)); // this is WAS the problem</span>
+<span class="nc" id="L102">		LOGGER.info(&quot;Order Item created&quot;);</span>
+		
+<span class="nc" id="L104">		LOGGER.info(&quot;Would you like to add another item to this order?&quot;);</span>
+<span class="nc" id="L105">		String answer = utils.getString();</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">		if (answer.contains(&quot;y&quot;)){</span>
+<span class="nc" id="L107">			addToOrder(id);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">		} else if (answer.contains(&quot;n&quot;)) {</span>
+<span class="nc" id="L109">			LOGGER.info(&quot;You can come back and do this later if you change your mind&quot;);</span>
+		}
+		
+		  
+<span class="nc" id="L113">		return null;</span>
+		//add another item to the order - create but dont use the read latest id for order - input the order id
+		// print the available ids - makes it easier for customer to choose
+	}
+	
+	public OrderItem removeFromOrder(Long id) {
+<span class="fc" id="L119">		OrderController orderController = new OrderController(orderDAO, utils);</span>
+<span class="fc" id="L120">		ItemDAO itemDAO = new ItemDAO(); </span>
+		
+<span class="fc" id="L122">		LOGGER.info(itemDAO.getItemNumsFromOrder(id));  </span>
+<span class="fc" id="L123">		LOGGER.info(&quot;Please enter the id of the item you would like to remove&quot;);</span>
+<span class="fc" id="L124">		Long itemId = utils.getLong();</span>
+<span class="fc" id="L125">		orderItemDAO.deleteFromOrder(id,itemId); // problem here - sql syntax problem</span>
+<span class="fc" id="L126">		LOGGER.info(itemDAO.getItemNumsFromOrder(id));  </span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">		if (orderItemDAO.ifExists(id) == false) { // problem is here - not deleting order if empty</span>
+<span class="fc" id="L128">			orderController.deleteNoInput(id);	</span>
+<span class="fc" id="L129">			System.out.println(&quot;in if statement&quot;); </span>
+		} else {
+			
+		}
+<span class="fc" id="L133">		return null;</span>
+	}
+	
+	public OrderItem updateOrder(Order order) {
+<span class="nc" id="L137">		OrderDAO orderDAO = new OrderDAO();</span>
+<span class="nc" id="L138">		CustomerDAO customerDAO = new CustomerDAO();</span>
+<span class="nc" id="L139">		ItemDAO itemDAO = new ItemDAO();</span>
+<span class="nc" id="L140">		OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
+<span class="nc" id="L141">		LOGGER.info(itemDAO.getItemNums());</span>
+<span class="nc" id="L142">		OrderController orderController = new OrderController(orderDAO, utils);</span>
+<span class="nc" id="L143">		LOGGER.info(&quot;Please enter updated item id&quot;);</span>
+<span class="nc" id="L144">		Long itemId = utils.getLong();</span>
+<span class="nc" id="L145">		LOGGER.info(&quot;Please enter number of these you would like&quot;);</span>
+<span class="nc" id="L146">		Long numItems = utils.getLong();</span>
+<span class="nc" id="L147">		Long id = order.getId();</span>
+<span class="nc" id="L148">		OrderItem orderItem = orderItemDAO.updateOrder(new OrderItem(id, itemId, numItems)); // problem here! - the customerId is updating but falling overt when it gets to changing the itemId</span>
+		//LOGGER.info(orderItemDAO.read(orderItem.getOrderId())); // problem is now here - removing this line means it doesn't throw an exception just an sql error
+<span class="nc" id="L150">		return null;</span>
+	}
+
+	
+	// Update order is not working - it changes the customer Id but not the rest. Currently it is saying its an illegal operation on an empty result set even though there are things in there. Also need to set on cascase update if possible?
+	@Override
+	public int delete() { // this isn't required for order items as you delete from the order not the order item.
+<span class="fc" id="L157">		return 0;</span>
+	}
+
+	public OrderItem readById(Long id) {
+<span class="nc" id="L161">		OrderItem orderItem = orderItemDAO.read(id);</span>
+<span class="nc" id="L162">		return orderItem;</span>
+	}
+	
+	// not needed for order items - had to make own because didnt make whole new set for order items as they arent accessed alone
+	@Override
+	public OrderItem readById() {
+<span class="fc" id="L168">		return null;</span>
+	}
+	
+	// not needed for order items - had to make own because didnt make whole new set for order items as they arent accessed alone 
+	@Override
+	public OrderItem update() {
+<span class="fc" id="L174">		return null;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
