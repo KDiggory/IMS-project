@@ -109,7 +109,7 @@ public class OrderItemController implements CrudController<OrderItem> {
 			LOGGER.info("You can come back and do this later if you change your mind");
 		}
 		
-		
+		  
 		return null;
 		//add another item to the order - create but dont use the read latest id for order - input the order id
 		// print the available ids - makes it easier for customer to choose
@@ -123,9 +123,12 @@ public class OrderItemController implements CrudController<OrderItem> {
 		LOGGER.info("Please enter the id of the item you would like to remove");
 		Long itemId = utils.getLong();
 		orderItemDAO.deleteFromOrder(id,itemId); // problem here - sql syntax problem
-		if (orderItemDAO.ifExists(id) == false) { // problem is here - deleting whole order if any are removed
-			System.out.println("In: if exists if loop");
-			orderController.deleteNoInput(id);			
+		LOGGER.info(itemDAO.getItemNumsFromOrder(id));  
+		if (orderItemDAO.ifExists(id) == false) { // problem is here - not deleting order if empty
+			orderController.deleteNoInput(id);	
+			System.out.println("in if statement"); 
+		} else {
+			
 		}
 		return null;
 	}

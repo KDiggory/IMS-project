@@ -166,12 +166,14 @@ public class OrderDAO implements Dao<Order> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE id = ?");) {
 			statement.setLong(1, id);
-			return statement.executeUpdate();
+			System.out.println("order deleted");
+			 statement.executeUpdate();
+			 return statement.executeUpdate();
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return 0;
+		return 0; // this is where you test the exception 
 	}
 
 	

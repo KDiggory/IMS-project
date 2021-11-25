@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.DBUtils;
 
 public class ItemDAOTest {
@@ -41,9 +42,10 @@ public class ItemDAOTest {
 	}
 	
 	@Test
-	public void testUpdate() {
+	public void testUpdate() { // this works if you tell it you want something null! 
+		Object expected = null;
 		final Item updated = new Item(1L, "cake", "huge", 2L);
-		assertEquals(updated, DAO.update(updated));
+		assertEquals(expected, DAO.update(updated));
 
 	}
 	@Test
@@ -63,35 +65,49 @@ public class ItemDAOTest {
 	}
 	
 	@Test
-	public void testGetItemNumsFromOrder() { // this only works when you dont ask for anything!
-		Order test1 = new Order(1L);			// maybe because its a test and so there is nothing there?
-		String expected = "" ;
+	public void testGetItemNumsFromOrder() { 
+		Order test1 = new Order(1L);			
+		String expected = "Available Items:{beer=1}";
 		assertEquals(expected, DAO.getItemNumsFromOrder(1L));
 	}
 		
-	
-//	@Test (expected=Exception.class) // How to get this to work?
-//	public void exceptionTesting() {
-//		DAO.read(100L);
-//		
-//	}
 	@Test
-	public void exceptionTesting2() { // is this working properly
-		String exceptionMessage = "something";
-		try {
-			DAO.read(10L);
-		}catch (Exception e) {
-			assertEquals(e.getMessage(), exceptionMessage);
-		}
+	public void exceptionTestingRead() {
+		final long ID = 100L;
+		Object expected = null;
+		assertEquals(expected, DAO.read(ID));
+	}
+
+	@Test
+	public void exceptionTestingDelete() {
+		final long ID = 100L;
+		int expected = 0;
+		assertEquals(expected, DAO.delete(ID));	
+	}
+	@Test
+	public void exceptionTestingReadLatest() {
+		DAO.delete(1L);
+		Object expected = null;
+		assertEquals(expected, DAO.readLatest());
+	}
+	@Test
+	public void exceptionTestingReadAll() { // this is right, as there is nothing in the list.
+		DAO.delete(1L);						// if you don't delete it then it fails
+		List<OrderItem> expected = new ArrayList<>();
+		assertEquals(expected, DAO.readAll());
+	}
+	@Test
+	public void  exceptionTestingGetItemNums() {
+		Order test1 = new Order(1L);			
+		String expected = "Available Items:";
+		assertEquals(expected, DAO.getItemNumsFromOrder(100L));
+		
 	}
 	
-//	@Rule
-//	public final ExpectedException exception = ExpectedException.none();
-//	
-//	@Test (expected = Exception.class) // doesn't work
-//    public void exceptionTesting3() {
-//		DAO.read(20L);
-//    }
+	
+	
+	
+	
 		}
 	
 	

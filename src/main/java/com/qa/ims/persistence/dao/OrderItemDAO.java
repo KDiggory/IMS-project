@@ -99,7 +99,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
-			LOGGER.debug(e);
+			LOGGER.debug(e); 
 			LOGGER.error(e.getMessage());
 		}
 		return null;
@@ -142,7 +142,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 			statement.setLong(1, id);										// this works in MySQL workbench
 			statement.setLong(2,  itemId);
 			statement.executeUpdate();
-			System.out.println("Item deleted"); // getting here - yes
+			System.out.println("Item deleted"); // getting here - yes // but it then doesnt go anywhere else
 			
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -152,7 +152,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 	}
 	// this needs to delete from order if the orderitems is null!
 	
-// does this get used??
+
 	public OrderItem updateOrder(OrderItem orderItem) {
 		Long id = orderItem.getOrderId();
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -179,11 +179,9 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		 ResultSet num = statement.executeQuery(); // this is the issue - need to get an int out not a result set
 		// System.out.println(num.getFetchSize()); // its printing 0 here! but should be 1 as there is still something in there 
 		 if (num.next()) {
-			// System.out.println("TRUE");
 			 bool = true;
 		 }else if (!num.next()) {
 			 bool = false;
-			// System.out.println("FALSE");}
 //		 if (num.getFetchSize() > 0 ) {  This didn't work so I did what is currently working. 
 //			 bool = true;
 //			 System.out.println("TRUE");
