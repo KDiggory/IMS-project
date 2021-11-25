@@ -42,20 +42,17 @@ private final OrderItemDAO DAO = new OrderItemDAO();
 	}
 	
 	
-	@Test 
-	public void testDeleteFromOrder() { // why is this like this??
-		assertEquals(1, DAO.deleteFromOrder(1L, 1L));
-		
-	}
+//	@Test 
+//	public void testDeleteFromOrder() { // why is this like this??
+//		assertEquals(1, DAO.deleteFromOrder(1L, 1L));
+//		
+//	}
 	
 	@Test
 	public void updateOrder() {
 		OrderItem item = new OrderItem(1L, 1L,"beer", 1L, 2L);
 		assertEquals(item, DAO.updateOrder(item));
-		
-		
-		
-	}
+		}
 	
 	@Test
 	public void testDelete() {
@@ -71,9 +68,8 @@ private final OrderItemDAO DAO = new OrderItemDAO();
 		boolean bool = true;
 		assertEquals(bool, DAO.ifExists(5L));
 		boolean bool2 = false;
-		assertNotEquals(bool2, DAO.ifExists(5L));
-	//	assertEquals(!bool2, DAO.ifExists(5L));
-		 
+		assertNotEquals(bool2, DAO.ifExists(5L)); 
 	}
-
+	
+	
 }

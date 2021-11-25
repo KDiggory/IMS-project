@@ -72,6 +72,7 @@ public class OrderController implements CrudController<Order>{
 	
 	public int deleteNoInput(Long id) {
 		OrderDAO orderDAO = new OrderDAO();
+		System.out.println("in delete no input");
 		return orderDAO.delete(id); 
 	}
 	
@@ -161,9 +162,9 @@ public class OrderController implements CrudController<Order>{
 			LOGGER.info(order); 
 			read ++;
 		}
-		getTotalOrder(id, read); 
+		getTotalOrder(id, read);  
 		return orders;	
-		
+		 
 		
 	}
 	public void addToOrder() {
