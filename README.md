@@ -1,5 +1,5 @@
 Coverage: ~65%
-# Project Title
+# IMS software
 Inventory Management System software
 
 The brief of this project was to make an inventory management system with CRUD functionality that saves data to a persistant database, in this case MySQL. 
