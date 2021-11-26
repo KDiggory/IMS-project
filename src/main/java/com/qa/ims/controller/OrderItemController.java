@@ -126,7 +126,6 @@ public class OrderItemController implements CrudController<OrderItem> {
 		LOGGER.info(itemDAO.getItemNumsFromOrder(id));  
 		if (orderItemDAO.ifExists(id) == false) { // problem is here - not deleting order if empty
 			orderController.deleteNoInput(id);	
-			System.out.println("in if statement"); 
 		} else {
 			
 		}
