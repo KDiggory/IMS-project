@@ -11,6 +11,8 @@ These instructions will get you a copy of the project up and running on your loc
 In the documentation folder there is a folder with the FatJar in, this can be downloaded and run on the command line using java -jar ims-0.0.1-jar-with-dependencies.jar.
 This will take you into the IMS. 
 
+The jira board for this project can be found at https://katiediggory.atlassian.net/jira/projects?selectedProjectType=software
+
 ### Prerequisites
 
 What things you need to install the software and how to install them
