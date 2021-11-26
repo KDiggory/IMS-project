@@ -89,7 +89,7 @@ public class IMS {
 
 <span class="nc bnc" id="L90" title="All 2 branches missed.">			if (action == Action.RETURN) {</span>
 <span class="nc" id="L91">				changeDomain = true;</span>
-			} else {
+<span class="nc" id="L92">			} else {</span>
 <span class="nc" id="L93">				doAction(active, action);</span>
 			}
 <span class="nc bnc" id="L95" title="All 2 branches missed.">		} while (!changeDomain);</span>
@@ -126,7 +126,7 @@ public class IMS {
 					}
 				} 
 			} 
-			break;
+<span class="nc" id="L129">			break;</span>
 		case UPDATE:
 <span class="nc bnc" id="L131" title="All 2 branches missed.">			if (crudController == this.orders ) {</span>
 <span class="nc" id="L132">				LOGGER.info(&quot;When updating your order you can just add or remove items, would you like to add or remove items from an order?&quot;);</span>
@@ -139,7 +139,7 @@ public class IMS {
 <span class="nc bnc" id="L139" title="All 2 branches missed.">			} else if ((crudController != this.orders ))  {</span>
 <span class="nc" id="L140">				crudController.update();</span>
 		} 
-			break;
+<span class="nc" id="L142">			break;</span>
 		case DELETE:
 <span class="nc" id="L144">			crudController.delete();</span>
 <span class="nc" id="L145">			break;</span>

@@ -29,7 +29,7 @@ public class ItemController implements CrudController&lt;Item&gt; {
 <span class="fc" id="L29">		List&lt;Item&gt; items = itemDAO.readAll();</span>
 <span class="fc bfc" id="L30" title="All 2 branches covered.">		for (Item item : items) {</span>
 <span class="fc" id="L31">			LOGGER.info(item);</span>
-<span class="fc" id="L32">		}</span>
+		}
 <span class="fc" id="L33">		return items;</span>
 	}
 	// creates an item - 3 parameters, name size and cost

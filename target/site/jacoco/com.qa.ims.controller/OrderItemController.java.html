@@ -36,7 +36,7 @@ public class OrderItemController implements CrudController&lt;OrderItem&gt; {
 <span class="fc" id="L36">		List&lt;OrderItem&gt; orderItems = orderItemDAO.readAll();</span>
 <span class="fc bfc" id="L37" title="All 2 branches covered.">		for (OrderItem orderItem : orderItems) {</span>
 <span class="fc" id="L38">			LOGGER.info(orderItem);</span>
-<span class="fc" id="L39">		}</span>
+		}
 <span class="fc" id="L40">		return orderItems;</span>
 	}
 
@@ -126,52 +126,51 @@ public class OrderItemController implements CrudController&lt;OrderItem&gt; {
 <span class="fc" id="L126">		LOGGER.info(itemDAO.getItemNumsFromOrder(id));  </span>
 <span class="pc bpc" id="L127" title="1 of 2 branches missed.">		if (orderItemDAO.ifExists(id) == false) { // problem is here - not deleting order if empty</span>
 <span class="fc" id="L128">			orderController.deleteNoInput(id);	</span>
-<span class="fc" id="L129">			System.out.println(&quot;in if statement&quot;); </span>
 		} else {
 			
 		}
-<span class="fc" id="L133">		return null;</span>
+<span class="fc" id="L132">		return null;</span>
 	}
 	
 	public OrderItem updateOrder(Order order) {
-<span class="nc" id="L137">		OrderDAO orderDAO = new OrderDAO();</span>
-<span class="nc" id="L138">		CustomerDAO customerDAO = new CustomerDAO();</span>
-<span class="nc" id="L139">		ItemDAO itemDAO = new ItemDAO();</span>
-<span class="nc" id="L140">		OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
-<span class="nc" id="L141">		LOGGER.info(itemDAO.getItemNums());</span>
-<span class="nc" id="L142">		OrderController orderController = new OrderController(orderDAO, utils);</span>
-<span class="nc" id="L143">		LOGGER.info(&quot;Please enter updated item id&quot;);</span>
-<span class="nc" id="L144">		Long itemId = utils.getLong();</span>
-<span class="nc" id="L145">		LOGGER.info(&quot;Please enter number of these you would like&quot;);</span>
-<span class="nc" id="L146">		Long numItems = utils.getLong();</span>
-<span class="nc" id="L147">		Long id = order.getId();</span>
-<span class="nc" id="L148">		OrderItem orderItem = orderItemDAO.updateOrder(new OrderItem(id, itemId, numItems)); // problem here! - the customerId is updating but falling overt when it gets to changing the itemId</span>
+<span class="nc" id="L136">		OrderDAO orderDAO = new OrderDAO();</span>
+<span class="nc" id="L137">		CustomerDAO customerDAO = new CustomerDAO();</span>
+<span class="nc" id="L138">		ItemDAO itemDAO = new ItemDAO();</span>
+<span class="nc" id="L139">		OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
+<span class="nc" id="L140">		LOGGER.info(itemDAO.getItemNums());</span>
+<span class="nc" id="L141">		OrderController orderController = new OrderController(orderDAO, utils);</span>
+<span class="nc" id="L142">		LOGGER.info(&quot;Please enter updated item id&quot;);</span>
+<span class="nc" id="L143">		Long itemId = utils.getLong();</span>
+<span class="nc" id="L144">		LOGGER.info(&quot;Please enter number of these you would like&quot;);</span>
+<span class="nc" id="L145">		Long numItems = utils.getLong();</span>
+<span class="nc" id="L146">		Long id = order.getId();</span>
+<span class="nc" id="L147">		OrderItem orderItem = orderItemDAO.updateOrder(new OrderItem(id, itemId, numItems)); // problem here! - the customerId is updating but falling overt when it gets to changing the itemId</span>
 		//LOGGER.info(orderItemDAO.read(orderItem.getOrderId())); // problem is now here - removing this line means it doesn't throw an exception just an sql error
-<span class="nc" id="L150">		return null;</span>
+<span class="nc" id="L149">		return null;</span>
 	}
 
 	
 	// Update order is not working - it changes the customer Id but not the rest. Currently it is saying its an illegal operation on an empty result set even though there are things in there. Also need to set on cascase update if possible?
 	@Override
 	public int delete() { // this isn't required for order items as you delete from the order not the order item.
-<span class="fc" id="L157">		return 0;</span>
+<span class="fc" id="L156">		return 0;</span>
 	}
 
 	public OrderItem readById(Long id) {
-<span class="nc" id="L161">		OrderItem orderItem = orderItemDAO.read(id);</span>
-<span class="nc" id="L162">		return orderItem;</span>
+<span class="nc" id="L160">		OrderItem orderItem = orderItemDAO.read(id);</span>
+<span class="nc" id="L161">		return orderItem;</span>
 	}
 	
 	// not needed for order items - had to make own because didnt make whole new set for order items as they arent accessed alone
 	@Override
 	public OrderItem readById() {
-<span class="fc" id="L168">		return null;</span>
+<span class="fc" id="L167">		return null;</span>
 	}
 	
 	// not needed for order items - had to make own because didnt make whole new set for order items as they arent accessed alone 
 	@Override
 	public OrderItem update() {
-<span class="fc" id="L174">		return null;</span>
+<span class="fc" id="L173">		return null;</span>
 	}
 
 }

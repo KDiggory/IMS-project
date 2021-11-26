@@ -29,7 +29,7 @@ public class DBUtils {
 <span class="fc" id="L29">			dbProps.load(fis);</span>
 <span class="nc" id="L30">		} catch (Exception e) {</span>
 <span class="nc" id="L31">			LOGGER.error(e);</span>
-<span class="fc" id="L32">		}</span>
+		}
 <span class="fc" id="L33">		this.dbUrl = dbProps.getProperty(&quot;db.url&quot;, &quot;&quot;);</span>
 <span class="fc" id="L34">		this.dbUser = dbProps.getProperty(&quot;db.user&quot;, &quot;&quot;);</span>
 <span class="fc" id="L35">		this.dbPassword = dbProps.getProperty(&quot;db.password&quot;, &quot;&quot;);</span>
@@ -65,7 +65,7 @@ public class DBUtils {
 <span class="fc" id="L65">			}).reduce((acc, next) -&gt; acc + next).orElse(0);</span>
 <span class="nc" id="L66">		} catch (Exception e) {</span>
 <span class="nc" id="L67">			LOGGER.debug(e);</span>
-<span class="fc" id="L68">		}</span>
+		}
 <span class="fc" id="L69">		return modified;</span>
 	}
 
@@ -73,7 +73,7 @@ public class DBUtils {
 <span class="fc" id="L73">		return DriverManager.getConnection(dbUrl, dbUser, dbPassword);</span>
 	}
 
-	private static DBUtils instance;
+<span class="fc" id="L76">	private static DBUtils instance;</span>
 
 	public static DBUtils connect() {
 <span class="fc" id="L79">		instance = new DBUtils();</span>

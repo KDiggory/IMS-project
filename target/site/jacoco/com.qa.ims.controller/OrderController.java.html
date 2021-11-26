@@ -39,7 +39,7 @@ public class OrderController implements CrudController&lt;Order&gt;{
 <span class="fc" id="L39">		List&lt;Order&gt; orders = orderDAO.readAll();</span>
 <span class="fc bfc" id="L40" title="All 2 branches covered.">		for (Order order : orders) {</span>
 <span class="fc" id="L41">			LOGGER.info(order);</span>
-<span class="fc" id="L42">		}</span>
+		}
 <span class="fc" id="L43">		return orders;</span>
 	}
 	
@@ -48,7 +48,7 @@ public class OrderController implements CrudController&lt;Order&gt;{
 		//System.out.println(orders.size());
 <span class="fc bfc" id="L49" title="All 2 branches covered.">		for (JoinTable order : orders) {</span>
 <span class="fc" id="L50">			LOGGER.info(order); // with this in as well everything is printed twice</span>
-<span class="fc" id="L51">		}</span>
+		}
 <span class="fc" id="L52">		return orders;</span>
 	}
 
@@ -72,8 +72,7 @@ public class OrderController implements CrudController&lt;Order&gt;{
 	
 	public int deleteNoInput(Long id) {
 <span class="fc" id="L74">		OrderDAO orderDAO = new OrderDAO();</span>
-<span class="fc" id="L75">		System.out.println(&quot;in delete no input&quot;);</span>
-<span class="fc" id="L76">		return orderDAO.delete(id); </span>
+<span class="fc" id="L75">		return orderDAO.delete(id); </span>
 	}
 	
 	
@@ -87,107 +86,107 @@ public class OrderController implements CrudController&lt;Order&gt;{
 //		Order order = orderDAO.update(new Order(id, custId));
 //		OrderItemController orderItemController = new OrderItemController(orderItemDAO, utils);
 //		orderItemController.updateOrder(order); // problem here 
-<span class="fc" id="L90">		return null;</span>
+<span class="fc" id="L89">		return null;</span>
 	}
 	
 	public Order readLatest() {
-<span class="nc" id="L94">		OrderDAO orderDAO = new OrderDAO();</span>
-<span class="nc" id="L95">		Order order = orderDAO.readLatest();</span>
-<span class="nc" id="L96">		return order;</span>
+<span class="nc" id="L93">		OrderDAO orderDAO = new OrderDAO();</span>
+<span class="nc" id="L94">		Order order = orderDAO.readLatest();</span>
+<span class="nc" id="L95">		return order;</span>
 		
 	}
 	
 	@Override
 	public Order readById() {
-<span class="nc" id="L102">	LOGGER.info(&quot;Please enter the id of the order you would like to find&quot;);</span>
-<span class="nc" id="L103">	Long id = utils.getLong();</span>
-<span class="nc" id="L104">	JoinTable order = orderDAO.readId(id);</span>
-<span class="nc" id="L105">	LOGGER.info(order);</span>
-<span class="nc" id="L106">		return null;</span>
+<span class="nc" id="L101">	LOGGER.info(&quot;Please enter the id of the order you would like to find&quot;);</span>
+<span class="nc" id="L102">	Long id = utils.getLong();</span>
+<span class="nc" id="L103">	JoinTable order = orderDAO.readId(id);</span>
+<span class="nc" id="L104">	LOGGER.info(order);</span>
+<span class="nc" id="L105">		return null;</span>
 	}
 	
 	public JoinTable readByIdInput(Long id) {
-<span class="fc" id="L110">		JoinTable order = orderDAO.readId(id);</span>
-<span class="fc" id="L111">		LOGGER.info(order);</span>
-<span class="fc" id="L112">			return order;</span>
+<span class="fc" id="L109">		JoinTable order = orderDAO.readId(id);</span>
+<span class="fc" id="L110">		LOGGER.info(order);</span>
+<span class="fc" id="L111">			return order;</span>
 		} 
 	
 	public List&lt;JoinTable&gt; readByCustomer(){
-<span class="nc" id="L116">		int read = 1;</span>
-<span class="nc" id="L117">		System.out.println( orderDAO.getCustomerNums() );</span>
-<span class="nc" id="L118">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="nc" id="L119">		LOGGER.info(&quot;Please enter the customer id of the orders you would like to find&quot;);</span>
-<span class="nc" id="L120">		Long id = utils.getLong();</span>
-<span class="nc" id="L121">		List&lt;JoinTable&gt; orders = orderDAO.readByCustomer(id);</span>
+<span class="nc" id="L115">		int read = 1;</span>
+<span class="nc" id="L116">		System.out.println( orderDAO.getCustomerNums() );</span>
+<span class="nc" id="L117">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L118">		LOGGER.info(&quot;Please enter the customer id of the orders you would like to find&quot;);</span>
+<span class="nc" id="L119">		Long id = utils.getLong();</span>
+<span class="nc" id="L120">		List&lt;JoinTable&gt; orders = orderDAO.readByCustomer(id);</span>
 		// System.out.println(&quot;orders for customer: &quot; + id); // could make it add the name here? - how to get this from OrderDAO? 
-<span class="nc bnc" id="L123" title="All 2 branches missed.">		for (JoinTable order : orders) {</span>
-<span class="nc" id="L124">			System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="nc" id="L125">			System.out.println(&quot;\t\tItem number: &quot; + read);</span>
-<span class="nc" id="L126">			LOGGER.info(order); </span>
-<span class="nc" id="L127">			read ++; </span>
-<span class="nc" id="L128">		}</span>
-<span class="nc" id="L129">		getTotal(id, read);</span>
-<span class="nc" id="L130">		return orders;	</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">		for (JoinTable order : orders) {</span>
+<span class="nc" id="L123">			System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L124">			System.out.println(&quot;\t\tItem number: &quot; + read);</span>
+<span class="nc" id="L125">			LOGGER.info(order); </span>
+<span class="nc" id="L126">			read ++; </span>
+		}
+<span class="nc" id="L128">		getTotal(id, read);</span>
+<span class="nc" id="L129">		return orders;	</span>
 	} 
 	
 	public Long getTotal(Long id, int read) {
-<span class="fc" id="L134">		Long totalSum = orderDAO.totalCost(id);</span>
-<span class="fc" id="L135">		System.out.println();</span>
-<span class="fc" id="L136">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="fc" id="L137">		System.out.println(&quot;\nThe total sum for customer number &quot; + id + &quot;,\nFor &quot; + (read-1) + &quot; orders: �&quot; + totalSum);</span>
-<span class="fc" id="L138">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="fc" id="L139">		return totalSum;</span>
+<span class="fc" id="L133">		Long totalSum = orderDAO.totalCost(id);</span>
+<span class="fc" id="L134">		System.out.println();</span>
+<span class="fc" id="L135">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="fc" id="L136">		System.out.println(&quot;\nThe total sum for customer number &quot; + id + &quot;,\nFor &quot; + (read-1) + &quot; orders: �&quot; + totalSum);</span>
+<span class="fc" id="L137">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="fc" id="L138">		return totalSum;</span>
 		
 	}
 	
 	public Long getTotalOrder(Long id, int read) {
-<span class="fc" id="L144">		Long totalSum = orderDAO.totalCostByOrder(id);</span>
-<span class="fc" id="L145">		System.out.println();</span>
-<span class="fc" id="L146">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="fc" id="L147">		System.out.println(&quot;\nThe total sum for order number &quot; + id + &quot;,\nFor &quot; + (read-1) + &quot; orders: �&quot; + totalSum);</span>
-<span class="fc" id="L148">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="fc" id="L149">		return totalSum;</span>
+<span class="fc" id="L143">		Long totalSum = orderDAO.totalCostByOrder(id);</span>
+<span class="fc" id="L144">		System.out.println();</span>
+<span class="fc" id="L145">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="fc" id="L146">		System.out.println(&quot;\nThe total sum for order number &quot; + id + &quot;,\nFor &quot; + (read-1) + &quot; orders: �&quot; + totalSum);</span>
+<span class="fc" id="L147">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="fc" id="L148">		return totalSum;</span>
 		
 	}
 	public List&lt;JoinTable&gt; readIdTable() {
-<span class="nc" id="L153">		int read = 1;</span>
-<span class="nc" id="L154">		System.out.println(orderDAO.getOrderNums() );</span>
-<span class="nc" id="L155">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="nc" id="L156">		LOGGER.info(&quot;Please enter the order id you would like to find&quot;);</span>
-<span class="nc" id="L157">		Long id = utils.getLong();</span>
-<span class="nc" id="L158">		List&lt;JoinTable&gt; orders = orderDAO.readIdTable(id);</span>
-<span class="nc bnc" id="L159" title="All 2 branches missed.">		for (JoinTable order : orders) {</span>
-<span class="nc" id="L160">			System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="nc" id="L161">			System.out.println(&quot;\t\tItem number: &quot; + read);</span>
-<span class="nc" id="L162">			LOGGER.info(order); </span>
-<span class="nc" id="L163">			read ++;</span>
-<span class="nc" id="L164">		}</span>
-<span class="nc" id="L165">		getTotalOrder(id, read);  </span>
-<span class="nc" id="L166">		return orders;	</span>
+<span class="nc" id="L152">		int read = 1;</span>
+<span class="nc" id="L153">		System.out.println(orderDAO.getOrderNums() );</span>
+<span class="nc" id="L154">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L155">		LOGGER.info(&quot;Please enter the order id you would like to find&quot;);</span>
+<span class="nc" id="L156">		Long id = utils.getLong();</span>
+<span class="nc" id="L157">		List&lt;JoinTable&gt; orders = orderDAO.readIdTable(id);</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">		for (JoinTable order : orders) {</span>
+<span class="nc" id="L159">			System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L160">			System.out.println(&quot;\t\tItem number: &quot; + read);</span>
+<span class="nc" id="L161">			LOGGER.info(order); </span>
+<span class="nc" id="L162">			read ++;</span>
+		}
+<span class="nc" id="L164">		getTotalOrder(id, read);  </span>
+<span class="nc" id="L165">		return orders;	</span>
 		 
 		
 	}
 	public void addToOrder() {
-<span class="nc" id="L171">		System.out.println(orderDAO.getOrderNums() );</span>
-<span class="nc" id="L172">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="nc" id="L173">		LOGGER.info(&quot;Please enter the order id you would like to add to&quot;);</span>
-<span class="nc" id="L174">		Long id = utils.getLong();</span>
-<span class="nc" id="L175">		OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
-<span class="nc" id="L176">		OrderItemController controller = new OrderItemController(orderItemDAO, utils);</span>
-<span class="nc" id="L177">		controller.addToOrder(id);</span>
-<span class="nc" id="L178">	}</span>
+<span class="nc" id="L170">		System.out.println(orderDAO.getOrderNums() );</span>
+<span class="nc" id="L171">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L172">		LOGGER.info(&quot;Please enter the order id you would like to add to&quot;);</span>
+<span class="nc" id="L173">		Long id = utils.getLong();</span>
+<span class="nc" id="L174">		OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
+<span class="nc" id="L175">		OrderItemController controller = new OrderItemController(orderItemDAO, utils);</span>
+<span class="nc" id="L176">		controller.addToOrder(id);</span>
+<span class="nc" id="L177">	}</span>
 
 
 	public void removeFromOrder() { // This is where column name not found message is coming from?
-<span class="nc" id="L182">		System.out.println(orderDAO.getOrderNums() );</span>
-<span class="nc" id="L183">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
-<span class="nc" id="L184">		LOGGER.info(&quot;Please enter the order id you would like to remove from&quot;);</span>
-<span class="nc" id="L185">		Long id = utils.getLong();</span>
-<span class="nc" id="L186">		OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
-<span class="nc" id="L187">		OrderItemController controller = new OrderItemController(orderItemDAO, utils);</span>
-<span class="nc" id="L188">		controller.removeFromOrder(id);</span>
+<span class="nc" id="L181">		System.out.println(orderDAO.getOrderNums() );</span>
+<span class="nc" id="L182">		System.out.println(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);</span>
+<span class="nc" id="L183">		LOGGER.info(&quot;Please enter the order id you would like to remove from&quot;);</span>
+<span class="nc" id="L184">		Long id = utils.getLong();</span>
+<span class="nc" id="L185">		OrderItemDAO orderItemDAO = new OrderItemDAO();</span>
+<span class="nc" id="L186">		OrderItemController controller = new OrderItemController(orderItemDAO, utils);</span>
+<span class="nc" id="L187">		controller.removeFromOrder(id);</span>
 		
-<span class="nc" id="L190">	}</span>
+<span class="nc" id="L189">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -65,7 +65,7 @@ import com.qa.ims.utils.DBUtils;
 //		return new ArrayList&lt;&gt;();
 //	}
 	
-	// wont actually be used
+	
 	@Override
 	public OrderItem read(Long id) {
 <span class="fc" id="L71">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
@@ -147,7 +147,7 @@ import com.qa.ims.utils.DBUtils;
 <span class="nc" id="L147">		} catch (Exception e) {</span>
 <span class="nc" id="L148">			LOGGER.debug(e);</span>
 <span class="nc" id="L149">			LOGGER.error(e.getMessage());</span>
-<span class="nc" id="L150">		}</span>
+		}
 		
 <span class="nc" id="L152">	}</span>
 	// this needs to delete from order if the orderitems is null!
@@ -180,7 +180,7 @@ import com.qa.ims.utils.DBUtils;
 		// System.out.println(num.getFetchSize()); // its printing 0 here! but should be 1 as there is still something in there 
 <span class="pc bpc" id="L181" title="1 of 2 branches missed.">		 if (num.next()) {</span>
 <span class="fc" id="L182">			 bool = true;</span>
-<span class="nc bnc" id="L183" title="All 2 branches missed.">		 }else if (!num.next()) {</span>
+<span class="pc bnc" id="L183" title="All 2 branches missed.">		 }else if (!num.next()) {</span>
 <span class="nc" id="L184">			 bool = false;</span>
 //		 if (num.getFetchSize() &gt; 0 ) {  This didn't work so I did what is currently working. 
 //			 bool = true;
@@ -192,7 +192,7 @@ import com.qa.ims.utils.DBUtils;
 <span class="nc" id="L192">			 } catch (Exception e) {</span>
 <span class="nc" id="L193">				 LOGGER.debug(e);</span>
 <span class="nc" id="L194">					LOGGER.error(e.getMessage());</span>
-<span class="fc" id="L195">			 }</span>
+			 }
 <span class="fc" id="L196">			 return bool;		</span>
 	}
 	

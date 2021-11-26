@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_0DpaAE4JEeyKBsDz6jxrIw" name="ims2">
+  <eAnnotations xmi:id="_0M0kIE4JEeyKBsDz6jxrIw" source="http://ns.yatta.de/umllab">
+    <contents xmi:type="ecore:EAnnotation" xmi:id="_0M0kIU4JEeyKBsDz6jxrIw" source="codegen">
+      <details xmi:id="_0M0kIk4JEeyKBsDz6jxrIw" key="codeGenerator" value="com.yattasolutions.ecore.ui.codeGenerator"/>
+    </contents>
+    <contents xmi:type="ecore:EAnnotation" xmi:id="_0R7toE4JEeyKBsDz6jxrIw" source="genmodel">
+      <details xmi:id="_0R7toU4JEeyKBsDz6jxrIw" key="href" value="platform:/resource/ims/src/main/java/com/qa/ims/ims2.genmodel"/>
+    </contents>
+  </eAnnotations>
+  <profileApplication xmi:id="_0MwSsE4JEeyKBsDz6jxrIw">
+    <eAnnotations xmi:id="_0MzWAE4JEeyKBsDz6jxrIw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Ecore.profile.uml#_z1OFcHjqEdy8S4Cr8Rc_NA"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML_PROFILES/Ecore.profile.uml#_0"/>
+  </profileApplication>
+</uml:Model>
