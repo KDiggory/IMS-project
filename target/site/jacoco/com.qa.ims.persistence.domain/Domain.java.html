@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.utils.Utils;
 
-<span class="nc" id="L8">public enum Domain {</span>
+public enum Domain {
 
 <span class="nc" id="L10">	CUSTOMER(&quot;Information about customers&quot;), ITEM(&quot;Individual Items&quot;), ORDER(&quot;Purchases of items&quot;),</span>
 <span class="nc" id="L11">	STOP(&quot;To close the application&quot;);</span>
@@ -30,13 +30,13 @@ import com.qa.ims.utils.Utils;
 
 	public static Domain getDomain(Utils utils) {
 		Domain domain;
-		while (true) {
+<span class="nc" id="L33">		while (true) {</span>
 			try {
 <span class="nc" id="L35">				domain = Domain.valueOf(utils.getString().toUpperCase());</span>
 <span class="nc" id="L36">				break;</span>
 <span class="nc" id="L37">			} catch (IllegalArgumentException e) {</span>
 <span class="nc" id="L38">				LOGGER.error(&quot;Invalid selection please try again&quot;);</span>
-<span class="nc" id="L39">			}</span>
+			}
 		}
 <span class="nc" id="L41">		return domain;</span>
 	}

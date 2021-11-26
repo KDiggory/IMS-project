@@ -86,18 +86,18 @@ import com.qa.ims.utils.DBUtils;
 	public Item update(Item item) {
 <span class="fc" id="L87">		try (Connection connection = DBUtils.getInstance().getConnection();</span>
 <span class="fc" id="L88">				PreparedStatement statement = connection</span>
-<span class="nc" id="L89">						.prepareStatement(&quot;UPDATE items SET itemName = ?, size = ?, cost = ? WHERE id = ?&quot;);) {</span>
-<span class="nc" id="L90">			statement.setString(1, item.getName());</span>
-<span class="nc" id="L91">			statement.setString(2, item.getSize());</span>
-<span class="nc" id="L92">			statement.setDouble(3, item.getCost());			</span>
-<span class="nc" id="L93">			statement.setLong(4, item.getId());</span>
-<span class="nc" id="L94">			statement.executeUpdate();</span>
-<span class="nc" id="L95">			return read(item.getId());</span>
-<span class="fc" id="L96">		} catch (Exception e) {</span>
-<span class="fc" id="L97">			LOGGER.debug(e);</span>
-<span class="fc" id="L98">			LOGGER.error(e.getMessage());</span>
+<span class="fc" id="L89">						.prepareStatement(&quot;UPDATE items SET name = ?, size = ?, cost = ? WHERE id = ?&quot;);) {</span>
+<span class="fc" id="L90">			statement.setString(1, item.getName());</span>
+<span class="fc" id="L91">			statement.setString(2, item.getSize());</span>
+<span class="fc" id="L92">			statement.setDouble(3, item.getCost());			</span>
+<span class="fc" id="L93">			statement.setLong(4, item.getId());</span>
+<span class="fc" id="L94">			statement.executeUpdate();</span>
+<span class="fc" id="L95">			return read(item.getId());</span>
+<span class="nc" id="L96">		} catch (Exception e) {</span>
+<span class="nc" id="L97">			LOGGER.debug(e);</span>
+<span class="nc" id="L98">			LOGGER.error(e.getMessage());</span>
 		}
-<span class="fc" id="L100">		return null;</span>
+<span class="nc" id="L100">		return null;</span>
 	}
 
 	@Override
@@ -138,7 +138,7 @@ import com.qa.ims.utils.DBUtils;
 <span class="fc" id="L138">				String name = modelFromResultSet(resultSet).getName();</span>
 				
 <span class="fc" id="L140">				hashMap.put(name, id);</span>
-<span class="fc" id="L141">			}</span>
+			}
 <span class="fc" id="L142">			availableItemNums = availableItemNums + hashMap.toString();</span>
 <span class="fc" id="L143">			return availableItemNums;</span>
 <span class="nc" id="L144">		} catch (SQLException e) {</span>
@@ -158,12 +158,12 @@ import com.qa.ims.utils.DBUtils;
 <span class="fc" id="L158">			ResultSet resultSet = statement.executeQuery(); </span>
 <span class="fc" id="L159">			List&lt;Order&gt; orders = new ArrayList&lt;&gt;();</span>
 <span class="fc" id="L160">			HashMap&lt;String, Long&gt; hashMap = new HashMap&lt;&gt;();</span>
-<span class="pc bpc" id="L161" title="1 of 2 branches missed.">			while (resultSet.next()) {</span>
-<span class="nc" id="L162">				Long id2 = modelFromResultSet(resultSet).getId();</span>
-<span class="nc" id="L163">				String name = modelFromResultSet(resultSet).getName();</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">			while (resultSet.next()) {</span>
+<span class="fc" id="L162">				Long id2 = modelFromResultSet(resultSet).getId();</span>
+<span class="fc" id="L163">				String name = modelFromResultSet(resultSet).getName();</span>
 				
-<span class="nc" id="L165">				hashMap.put(name, id2);</span>
-<span class="nc" id="L166">			}</span>
+<span class="fc" id="L165">				hashMap.put(name, id2);</span>
+			}
 <span class="fc" id="L167">			availableItemNums = availableItemNums + hashMap.toString();</span>
 <span class="fc" id="L168">			return availableItemNums;</span>
 <span class="nc" id="L169">		} catch (SQLException e) {</span>

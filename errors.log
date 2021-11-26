@@ -1,0 +1,87 @@
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java37 - id:1 first name:jordan surname:harrison
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java47 - Please enter a first name
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java49 - Please enter a surname
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java52 - Customer created
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java81 - null
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java82 - ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java83 - Please enter the id of the customer you would like to delete
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java61 - null
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java62 - ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java63 - Please enter the id of the customer you would like to update
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java65 - Please enter a first name
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java67 - Please enter a surname
+20211126 09:35:38 INFO  [main] controller.CustomerController CustomerController.java70 - Customer Updated
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java80 - null
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java81 - ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java82 - Please enter the id of the item you would like to find
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java85 - Item [id=1, name=cake, size=cupcake, cost=1]
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java31 - Item [id=1, name=cake, size=cupcake, cost=1]
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java38 - Please enter the item name
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java40 - Please enter the item size
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java42 - Please enter the cost
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java46 - Item created
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java70 - null
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java71 - ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java72 - Please enter the id of the item you would like to delete
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java53 - null
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java54 - ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java55 - Please enter the id of the item you would like to update
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java57 - Please enter the new item name
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java59 - Please enter the new item size
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java61 - Please enter the new cost
+20211126 09:35:38 INFO  [main] controller.ItemController ItemController.java64 - Item updated
+20211126 09:35:39 INFO  [main] controller.OrderController OrderController.java110 - null
+20211126 09:35:39 INFO  [main] controller.OrderController OrderController.java110 - 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Order number:1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+customerId:		1
+customerSurname:	Diggory
+itemId:			1
+itemName:		cake
+itemCost:		1
+numItems:		1
+totalCost:		1
+20211126 09:35:39 INFO  [main] controller.OrderController OrderController.java50 - 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Order number:1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+customerId:		1
+customerSurname:	Diggory
+itemId:			1
+itemName:		cake
+itemCost:		1
+numItems:		1
+totalCost:		1
+20211126 09:35:39 INFO  [main] controller.OrderController OrderController.java41 - Order id:1, Customer Id:1]
+20211126 09:35:39 INFO  [main] controller.OrderController OrderController.java68 - Please enter the id of the order you would like to delete
+20211126 09:35:39 INFO  [main] controller.OrderItemController OrderItemController.java122 - Available Items:
+{beer=1}
+20211126 09:35:39 INFO  [main] controller.OrderItemController OrderItemController.java123 - Please enter the id of the item you would like to remove
+20211126 09:35:39 INFO  [main] controller.OrderItemController OrderItemController.java126 - Available Items:
+{beer=1}
+20211126 09:35:39 INFO  [main] controller.OrderItemController OrderItemController.java38 - OrderItem [id=null, orderId=1, itemId=1, itemName=beer, numItems=2, cost=2]
+20211126 09:35:39 DEBUG [main] dao.CustomerDAO CustomerDAO.java84 - org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
+20211126 09:35:39 ERROR [main] dao.CustomerDAO CustomerDAO.java85 - No data is available [2000-200]
+20211126 09:35:39 DEBUG [main] dao.CustomerDAO CustomerDAO.java122 - org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
+20211126 09:35:39 ERROR [main] dao.CustomerDAO CustomerDAO.java123 - No data is available [2000-200]
+20211126 09:35:40 DEBUG [main] dao.ItemDAO ItemDAO.java61 - org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
+20211126 09:35:40 ERROR [main] dao.ItemDAO ItemDAO.java62 - No data is available [2000-200]
+20211126 09:35:40 DEBUG [main] dao.ItemDAO ItemDAO.java123 - org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
+20211126 09:35:40 ERROR [main] dao.ItemDAO ItemDAO.java124 - No data is available [2000-200]
+20211126 09:35:40 DEBUG [main] dao.OrderDAO OrderDAO.java138 - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Referential integrity constraint violation: "CONSTRAINT_8B: PUBLIC.ORDERS FOREIGN KEY(CUSTOMERID) REFERENCES PUBLIC.CUSTOMERS(ID) (5)"; SQL statement:
+INSERT INTO orders (customerId)VALUES (?) [23506-200]
+20211126 09:35:40 ERROR [main] dao.OrderDAO OrderDAO.java139 - Referential integrity constraint violation: "CONSTRAINT_8B: PUBLIC.ORDERS FOREIGN KEY(CUSTOMERID) REFERENCES PUBLIC.CUSTOMERS(ID) (5)"; SQL statement:
+INSERT INTO orders (customerId)VALUES (?) [23506-200]
+20211126 09:35:40 DEBUG [main] dao.OrderDAO OrderDAO.java138 - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Referential integrity constraint violation: "CONSTRAINT_8B: PUBLIC.ORDERS FOREIGN KEY(CUSTOMERID) REFERENCES PUBLIC.CUSTOMERS(ID) (5)"; SQL statement:
+INSERT INTO orders (customerId)VALUES (?) [23506-200]
+20211126 09:35:40 ERROR [main] dao.OrderDAO OrderDAO.java139 - Referential integrity constraint violation: "CONSTRAINT_8B: PUBLIC.ORDERS FOREIGN KEY(CUSTOMERID) REFERENCES PUBLIC.CUSTOMERS(ID) (5)"; SQL statement:
+INSERT INTO orders (customerId)VALUES (?) [23506-200]
+20211126 09:35:40 DEBUG [main] dao.OrderDAO OrderDAO.java138 - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Referential integrity constraint violation: "CONSTRAINT_8B: PUBLIC.ORDERS FOREIGN KEY(CUSTOMERID) REFERENCES PUBLIC.CUSTOMERS(ID) (5)"; SQL statement:
+INSERT INTO orders (customerId)VALUES (?) [23506-200]
+20211126 09:35:40 ERROR [main] dao.OrderDAO OrderDAO.java139 - Referential integrity constraint violation: "CONSTRAINT_8B: PUBLIC.ORDERS FOREIGN KEY(CUSTOMERID) REFERENCES PUBLIC.CUSTOMERS(ID) (5)"; SQL statement:
+INSERT INTO orders (customerId)VALUES (?) [23506-200]
+20211126 09:35:40 DEBUG [main] dao.OrderDAO OrderDAO.java138 - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Referential integrity constraint violation: "CONSTRAINT_8B: PUBLIC.ORDERS FOREIGN KEY(CUSTOMERID) REFERENCES PUBLIC.CUSTOMERS(ID) (5)"; SQL statement:
+INSERT INTO orders (customerId)VALUES (?) [23506-200]
+20211126 09:35:40 ERROR [main] dao.OrderDAO OrderDAO.java139 - Referential integrity constraint violation: "CONSTRAINT_8B: PUBLIC.ORDERS FOREIGN KEY(CUSTOMERID) REFERENCES PUBLIC.CUSTOMERS(ID) (5)"; SQL statement:
+INSERT INTO orders (customerId)VALUES (?) [23506-200]

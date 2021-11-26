@@ -35,7 +35,7 @@ public class CustomerController implements CrudController&lt;Customer&gt; {
 <span class="fc" id="L35">		List&lt;Customer&gt; customers = customerDAO.readAll();</span>
 <span class="fc bfc" id="L36" title="All 2 branches covered.">		for (Customer customer : customers) {</span>
 <span class="fc" id="L37">			LOGGER.info(customer);</span>
-<span class="fc" id="L38">		}</span>
+		}
 <span class="fc" id="L39">		return customers;</span>
 	}
 

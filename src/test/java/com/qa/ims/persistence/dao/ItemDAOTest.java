@@ -42,10 +42,10 @@ public class ItemDAOTest {
 	}
 	
 	@Test
-	public void testUpdate() { // this works if you tell it you want something null! 
-		Object expected = null;
+	public void testUpdate() { 
+		
 		final Item updated = new Item(1L, "cake", "huge", 2L);
-		assertEquals(expected, DAO.update(updated));
+		assertEquals(updated, DAO.update(updated));
 
 	}
 	@Test
