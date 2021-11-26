@@ -63,7 +63,7 @@ public class OrderDAO implements Dao<Order> {
 				orders.add(modelFromResultSetJoin(resultSet)); 
 				
 			}
-			System.out.println(orders.size()); // prints 3
+			//System.out.println(orders.size()); 
 			return orders;
 		} catch (SQLException e) {
 			LOGGER.debug(e);
